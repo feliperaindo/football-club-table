@@ -5,6 +5,7 @@ import {
   InferCreationAttributes,
   CreationOptional,
 } from 'sequelize';
+
 import db from '.';
 // import OtherModel from './OtherModel';
 
