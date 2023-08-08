@@ -1,4 +1,8 @@
+// libraries
 import * as express from 'express';
+
+// router
+import RouterManager from './routes/Router';
 
 class App {
   public app: express.Express;
@@ -8,8 +12,7 @@ class App {
 
     this.config();
 
-    // Não remover essa rota
-    this.app.get('/', (__req, res) => res.json({ ok: true }));
+    this.app.use(new RouterManager().router);
   }
 
   private config(): void {

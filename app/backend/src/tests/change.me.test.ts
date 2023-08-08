@@ -1,18 +1,19 @@
-import * as sinon from 'sinon';
+// Libraries
 import * as chai from 'chai';
-// @ts-ignore
+import * as sinon from 'sinon';
 import chaiHttp = require('chai-http');
 
+// App
 import { app } from '../app';
-import Example from '../database/models/ExampleModel';
 
-import { Response } from 'superagent';
+// Model
+import Example from '../database/models/ExampleModel';
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('Seu teste', () => {
+describe('Seu teste', function () {
   /**
    * Exemplo do uso de stubs com tipos
    */
@@ -39,7 +40,7 @@ describe('Seu teste', () => {
   //   expect(...)
   // });
 
-  it('Seu sub-teste', () => {
+  it('Seu sub-teste', function () {
     expect(false).to.be.eq(true);
   });
 });
