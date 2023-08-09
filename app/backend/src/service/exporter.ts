@@ -1,2 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
-export { default as TeamService } from './teamService';
+import TeamService from './teamService';
+
+export default TeamService;

@@ -1,2 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
-export { AllTeams } from './Team';
+import { AllTeams } from './Team';
+
+export default AllTeams;
