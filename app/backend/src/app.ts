@@ -1,5 +1,5 @@
 // libraries
-import * as express from 'express';
+import express = require('express');
 
 // router
 import RouterManager from './routes/Router';

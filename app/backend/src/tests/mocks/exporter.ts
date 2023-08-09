@@ -1,1 +1,1 @@
-export { default as teams } from './teams.json';
+// export { default as teams } from './teams.json';

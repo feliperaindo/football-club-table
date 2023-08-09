@@ -9,10 +9,10 @@
     "moduleResolution": "node",
     "baseUrl": ".", 
     "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
-    "esModuleInterop": true,
     "paths": {
       "*": ["node_modules/*"]
     }
