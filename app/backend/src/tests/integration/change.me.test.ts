@@ -5,10 +5,10 @@ import * as sinon from 'sinon';
 import chaiHttp = require('chai-http');
 
 // App
-import { app } from '../app';
+import { app } from '../../app';
 
 // Model
-import Example from '../database/models/ExampleModel';
+import Example from '../../database/models/ExampleModel';
 
 // configurations
 chai.use(chaiHttp);

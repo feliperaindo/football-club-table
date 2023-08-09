@@ -3,6 +3,7 @@
 **/.nyc_output
 **/*.log
 **/build*
+.vscode
 coverage
 front.eval
 back.eval

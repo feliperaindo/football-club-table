@@ -1,18 +1,18 @@
 // Libraries
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 
 // Classes
-import Routes from '../classes/exporter';
+import * as classes from '../classes/exporter';
 
-// types
-// import * as types from '../types/routes/root';
+// Controller
+import TeamController from '../controller/exporter';
 
-export default class TeamRoute extends Routes {
+export default class TeamRoute extends classes.Routes {
   // router
   protected _router: Router = Router();
 
   // controller
-  protected controller = 5;
+  protected controller = new TeamController();
 
   constructor() {
     super();
@@ -25,7 +25,10 @@ export default class TeamRoute extends Routes {
 
   // methods
   protected initializeRoutes(): void {
-    this._router.get(this.root);
+    this._router.get(
+      this.root,
+      (req: Request, res: Response) => this.controller.allTeams(req, res),
+    );
   }
 
   protected errorHandler(): void {

@@ -2,7 +2,7 @@
 import { Router } from 'express';
 
 // Classes
-import Routes from '../classes/exporter';
+import * as classes from '../classes/exporter';
 
 // Routes
 import TeamRoute from './exporter';
@@ -10,7 +10,9 @@ import TeamRoute from './exporter';
 // types
 import * as types from '../types/routes/export';
 
-export default class RouterManager extends Routes {
+export default class RouterManager extends classes.Routes {
+  protected controller?: classes.Controller | undefined;
+
   // router
   protected _router: Router = Router();
 
@@ -22,9 +24,6 @@ export default class RouterManager extends Routes {
 
   // routers managers
   private team: TeamRoute = new TeamRoute();
-
-  // controller
-  protected controller = 5;
 
   constructor() {
     super();

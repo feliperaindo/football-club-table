@@ -1,6 +1,9 @@
 // Libraries
 import { Router } from 'express';
 
+// classes
+import Controller from './controller';
+
 // types
 import * as types from '../types/routes/export';
 
@@ -9,7 +12,7 @@ export default abstract class Routes {
 
   protected abstract _router: Router;
 
-  protected abstract controller: number;
+  protected abstract controller?: Controller;
 
   protected abstract errorHandler(): void;
 

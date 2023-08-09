@@ -17,7 +17,7 @@ import * as models from '../../database/models/exporter';
 chai.use(chaiHttp);
 const { expect } = chai;
 
-describe('Sequência de testes dentro do diretório"', function () {
+describe('Sequência de testes sobre a rota "/teams"', function () {
   describe('Sequência de testes sobre a rota GET', function () {
     const OK = 200;
     const PATH_ROOT = '/teams';
@@ -28,8 +28,9 @@ describe('Sequência de testes dentro do diretório"', function () {
 
       const allTeams = await chai.request(app).get(PATH_ROOT);
 
+      sinon.assert.calledOnce(fakeModel);
       expect(allTeams).to.have.status(OK);
-      expect(allTeams.body).to.be.deep.equal(fakeModel);
+      expect(allTeams.body).to.be.deep.equal(teams);
     });
   });
 });

@@ -1,0 +1,1 @@
+export { AllTeams } from './Team';
