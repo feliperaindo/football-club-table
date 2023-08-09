@@ -144,8 +144,16 @@
     "sonarjs/no-inverted-boolean-check": [
       "error"
     ]
-  }
-  // "overrides": [
-  //   { "files": ["*.test.ts"], "rules": { "prefer-arrow-callback": "off", "func-names": "off" } }
-  // ]
+  },
+  "overrides": [
+    {
+      "files": ["*.test.ts"],
+      "rules":
+        {
+          "func-names": "off",
+          "prefer-arrow-callback": "off",
+          "@typescript-eslint/ban-ts-comment": "off"
+        }
+    }
+  ]
 }

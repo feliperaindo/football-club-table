@@ -1,1 +1,3 @@
-// export { default as teams } from './teams.json';
+import teams = require('./teams.json');
+
+export default teams;

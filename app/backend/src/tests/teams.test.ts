@@ -5,19 +5,19 @@ import * as sinon from 'sinon';
 import chaiHttp = require('chai-http');
 
 // Mocks
-import teams from '../mocks/exporter';
+import teams from './mocks/exporter';
 
 // app
-import { app } from '../../app';
+import { app } from '../app';
 
 // Model
-import * as models from '../../database/models/exporter';
+import * as models from '../database/models/exporter';
 
 // configurations
 chai.use(chaiHttp);
 const { expect } = chai;
 
-describe('Sequência de testes dentro do diretório"', function () {
+describe('Sequência de testes sobre a rota "/teams"', function () {
   describe('Sequência de testes sobre a rota GET', function () {
     const OK = 200;
     const PATH_ROOT = '/teams';

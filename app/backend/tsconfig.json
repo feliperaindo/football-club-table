@@ -15,8 +15,8 @@
     "skipLibCheck": true,
     "paths": {
       "*": ["node_modules/*"]
-    }
+    },
   },
   "include": ["src/**/*"],
-  "exclude": ["src/tests"]
+  // "exclude": ["tests/**/*"]
 }
