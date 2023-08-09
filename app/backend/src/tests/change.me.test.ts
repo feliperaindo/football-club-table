@@ -1,6 +1,7 @@
 // Libraries
 import * as chai from 'chai';
 import * as sinon from 'sinon';
+// @ts-ignore
 import chaiHttp = require('chai-http');
 
 // App
@@ -9,8 +10,8 @@ import { app } from '../app';
 // Model
 import Example from '../database/models/ExampleModel';
 
+// configurations
 chai.use(chaiHttp);
-
 const { expect } = chai;
 
 describe('Seu teste', function () {

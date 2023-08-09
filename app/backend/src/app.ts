@@ -7,12 +7,14 @@ import RouterManager from './routes/Router';
 class App {
   public app: express.Express;
 
+  private manager = new RouterManager();
+
   constructor() {
     this.app = express();
 
     this.config();
 
-    this.app.use(new RouterManager().router);
+    this.app.use(this.manager.router);
   }
 
   private config(): void {
