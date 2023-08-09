@@ -5,13 +5,13 @@ FROM node:16.14-alpine AS backend
 WORKDIR /app-backend
 
 # Copiar os package.json, package-lock.json e packages.npm para o container
-COPY package*.json .
+COPY package*.json ./
 
 # Instalar as dependências Node
 RUN ["npm", "install"]
 
 # Copiar o restante dos arquivos da aplicação para o container
-COPY . .
+COPY . ./
 
 # Sinalize que aplicação expõe a porta 3001
 EXPOSE 3001
