@@ -1,2 +1,4 @@
 sinon-chai
+chai-as-promised
 @types/sinon-chai
+@types/chai-as-promised

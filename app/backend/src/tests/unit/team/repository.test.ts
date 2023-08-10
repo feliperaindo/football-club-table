@@ -29,4 +29,14 @@ describe('Sequência de testes sobre a camada repository da rota "/teams"', func
     sinon.assert.calledOnce(fakeModel);
     expect(result).to.be.deep.equal(buildModel);
   });
+
+  it('Verifica se a camada retorna um elemento da instância advinda da model', async function () {
+    const buildModel = model.TeamModel.build(teams[0]);
+    const fakeModel = sinon.stub(model.TeamModel, 'findByPk').resolves(buildModel);
+
+    const result = await repository.getByPk(1);
+
+    sinon.assert.calledOnce(fakeModel);
+    expect(result).to.be.deep.equal(buildModel);
+  });
 });
