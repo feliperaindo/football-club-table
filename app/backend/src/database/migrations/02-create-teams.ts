@@ -2,11 +2,11 @@
 import { Model, DataTypes, QueryInterface } from 'sequelize';
 
 // Types
-import { TeamsMigration } from '../../types/migrations/exporter';
+import { migrations } from '../../types/exporter';
 
 export default {
   up: (queryInterface: QueryInterface) =>
-    queryInterface.createTable<Model<TeamsMigration>>('teams', {
+    queryInterface.createTable<Model<migrations.TeamsMigration>>('teams', {
       id: {
         type: DataTypes.INTEGER,
         allowNull: false,

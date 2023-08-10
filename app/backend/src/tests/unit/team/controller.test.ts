@@ -6,7 +6,7 @@ import * as sinonChai from 'sinon-chai';
 
 // types
 import { Request, Response } from 'express';
-import * as types from '../../../types/HTTP/status';
+import * as types from '../../../types/exporter';
 
 // Mocks
 import teams from '../../mocks/exporter';

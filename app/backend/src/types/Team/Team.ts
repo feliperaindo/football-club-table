@@ -1,4 +1,4 @@
-export type AllTeams = {
+export type Team = {
   id: number,
   teamName: string,
 };

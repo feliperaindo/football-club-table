@@ -2,11 +2,11 @@
 import { Model, DataTypes, QueryInterface } from 'sequelize';
 
 // Types
-import { MatchesMigration } from '../../types/migrations/exporter';
+import { migrations } from '../../types/exporter';
 
 export default {
   up: (queryInterface: QueryInterface) =>
-    queryInterface.createTable<Model<MatchesMigration>>('matches', {
+    queryInterface.createTable<Model<migrations.MatchesMigration>>('matches', {
       id: {
         type: DataTypes.INTEGER,
         allowNull: false,

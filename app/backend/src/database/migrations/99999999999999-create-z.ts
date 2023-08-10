@@ -1,4 +1,7 @@
+// libraries
 import { Model, QueryInterface, DataTypes } from 'sequelize';
+
+// interfaces
 import IExample from '../../interfaces/Example';
 
 export default {

@@ -8,7 +8,7 @@ import * as classes from '../classes/exporter';
 import TeamRoute from './exporter';
 
 // types
-import * as types from '../types/routes/export';
+import * as types from '../types/exporter';
 
 export default class RouterManager extends classes.Routes {
   protected controller?: classes.Controller | undefined;
@@ -17,10 +17,10 @@ export default class RouterManager extends classes.Routes {
   protected _router: Router = Router();
 
   // routes names
-  private readonly teams: types.AllRoutes = '/teams';
-  private readonly login: types.AllRoutes = '/login';
-  private readonly matches: types.AllRoutes = '/matches';
-  private readonly leaderBoard: types.AllRoutes = '/leaderboard';
+  private readonly teams: types.routes.AllRoutes = '/teams';
+  private readonly login: types.routes.AllRoutes = '/login';
+  private readonly matches: types.routes.AllRoutes = '/matches';
+  private readonly leaderBoard: types.routes.AllRoutes = '/leaderboard';
 
   // routers managers
   private team: TeamRoute = new TeamRoute();

@@ -2,11 +2,11 @@
 import { Model, DataTypes, QueryInterface } from 'sequelize';
 
 // Types
-import { UserMigration } from '../../types/migrations/exporter';
+import { migrations } from '../../types/exporter';
 
 export default {
   up: (queryInterface: QueryInterface) =>
-    queryInterface.createTable<Model<UserMigration>>('users', {
+    queryInterface.createTable<Model<migrations.UserMigration>>('users', {
       id: {
         type: DataTypes.INTEGER,
         allowNull: false,

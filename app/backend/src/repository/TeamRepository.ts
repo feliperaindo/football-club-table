@@ -14,4 +14,8 @@ export default class TeamRepository extends classes.Repository
   public async getAll(): Promise<model.TeamModel[]> {
     return this.model.findAll();
   }
+
+  public async getByPk(id: number): Promise<model.TeamModel | null> {
+    return this.model.findByPk(id);
+  }
 }
