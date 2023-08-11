@@ -24,7 +24,7 @@ describe('Sequência de testes sobre a rota "/teams"', function () {
   const PATH_ROOT = '/teams';
   const PATH_ID = '/teams/5';
 
-  afterEach(function () { sinon.restore(); console.log('restaurai o sinon'); });
+  afterEach(sinon.restore);
 
   describe('Sequência de testes sobre a rota GET', function () {
     describe('Sequência para casos de sucesso', function () {

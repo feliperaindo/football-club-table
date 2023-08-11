@@ -8,7 +8,7 @@ import {
 
 // Database and Models
 import sequelize from '.';
-import TeamModel from './TeamModel';
+import TeamModel from './team.model';
 
 export default class MatchModel extends Model<InferAttributes<MatchModel>,
 InferCreationAttributes<MatchModel>> {

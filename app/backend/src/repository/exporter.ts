@@ -1,3 +1,3 @@
-import TeamRepository from './TeamRepository';
+import TeamRepository from './team.repository';
 
 export default TeamRepository;

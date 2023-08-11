@@ -2,7 +2,7 @@
 import { Model, QueryInterface, DataTypes } from 'sequelize';
 
 // interfaces
-import IExample from '../../interfaces/Example';
+import IExample from '../../interfaces/example';
 
 export default {
   up(queryInterface: QueryInterface) {

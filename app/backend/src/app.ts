@@ -2,7 +2,7 @@
 import * as express from 'express';
 
 // router
-import RouterManager from './routes/Router';
+import RouterManager from './routes/router';
 
 class App {
   public app: express.Express;

@@ -1,5 +1,5 @@
 // interfaces
-import ITeamRepository from '../interfaces/exporter';
+import * as interfaces from '../interfaces/exporter';
 
 // classes
 import * as classes from '../classes/exporter';
@@ -8,7 +8,7 @@ import * as classes from '../classes/exporter';
 import * as model from '../database/models/exporter';
 
 export default class TeamRepository extends classes.Repository
-  implements ITeamRepository<model.TeamModel> {
+  implements interfaces.ITeamRepository<model.TeamModel> {
   protected model = model.TeamModel;
 
   public async getAll(): Promise<model.TeamModel[]> {
