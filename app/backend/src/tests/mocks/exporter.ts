@@ -1,3 +1,4 @@
 import teams = require('./teams.json');
+import login = require('./login.json');
 
-export default teams;
+export { teams, login };

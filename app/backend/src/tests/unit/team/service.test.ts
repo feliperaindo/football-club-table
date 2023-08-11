@@ -6,16 +6,16 @@ import * as sinonChai from 'sinon-chai';
 import * as chaiAsPromised from 'chai-as-promised';
 
 // Mocks
-import teams from '../../mocks/exporter';
+import { teams } from '../../mocks/exporter';
 
 // Model
 import * as model from '../../../database/models/exporter';
 
 // Repository
-import TeamRepository from '../../../repository/exporter';
+import { TeamRepository } from '../../../repository/exporter';
 
 // Service a ser testada
-import TeamService from '../../../service/exporter';
+import { TeamService } from '../../../service/exporter';
 
 // configurations
 chai.use(sinonChai);

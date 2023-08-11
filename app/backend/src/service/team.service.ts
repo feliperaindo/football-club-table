@@ -5,10 +5,10 @@ import { Team } from '../types/exporter';
 import * as classes from '../classes/exporter';
 
 // repository
-import TeamRepository from '../repository/exporter';
+import * as repository from '../repository/exporter';
 
 export default class TeamService extends classes.Service {
-  protected repository = new TeamRepository();
+  protected repository = new repository.TeamRepository();
 
   public async getAll(): Promise<Team[]> {
     const allTeams = await this.repository.getAll();

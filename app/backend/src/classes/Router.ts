@@ -17,4 +17,6 @@ export default abstract class Routes {
   protected abstract errorHandler(): void;
 
   protected abstract initializeRoutes(): void;
+
+  public abstract get manager(): Router;
 }

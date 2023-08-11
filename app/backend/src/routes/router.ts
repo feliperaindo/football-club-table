@@ -5,7 +5,7 @@ import { Router } from 'express';
 import * as classes from '../classes/exporter';
 
 // Routes
-import TeamRoute from './exporter';
+import * as routes from './exporter';
 
 // types
 import * as types from '../types/exporter';
@@ -23,7 +23,8 @@ export default class RouterManager extends classes.Routes {
   private readonly leaderBoard: types.routes.AllRoutes = '/leaderboard';
 
   // routers managers
-  private team: TeamRoute = new TeamRoute();
+  private teamRouter: routes.TeamRoute = new routes.TeamRoute();
+  private loginRouter: routes.LoginRoute = new routes.LoginRoute();
 
   constructor() {
     super();
@@ -32,7 +33,7 @@ export default class RouterManager extends classes.Routes {
   }
 
   // getters
-  get router() { return this._router; }
+  get manager() { return this._router; }
 
   // methods
   protected initializeRoutes(): void {
@@ -40,8 +41,8 @@ export default class RouterManager extends classes.Routes {
     this._router.get(this.root, (__req, res) => res.json({ ok: true }));
 
     // other routes
-    this._router.use(this.teams, this.team.router);
-    // this._router.use(this.login);
+    this._router.use(this.teams, this.teamRouter.manager);
+    this._router.use(this.login, this.loginRouter.manager);
     // this._router.use(this.matches);
     // this._router.use(this.leaderBoard);
   }

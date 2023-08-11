@@ -4,24 +4,18 @@ import { Router, Request, Response, NextFunction } from 'express';
 // Classes
 import * as classes from '../classes/exporter';
 
-// types
-import * as types from '../types/exporter';
-
 // Middleware
 import ErrorMid from '../middleware/error.mid';
 
 // Controller
 import * as controller from '../controller/exporter';
 
-export default class TeamRoute extends classes.Routes {
-  // Paths
-  private readonly pathId: types.routes.common.Id = '/:id';
-
+export default class LoginRoute extends classes.Routes {
   // router
   protected _router: Router = Router();
 
   // controller
-  protected controller = new controller.TeamController();
+  protected controller = new controller.UserController();
 
   constructor() {
     super();
@@ -34,18 +28,9 @@ export default class TeamRoute extends classes.Routes {
 
   // methods
   protected initializeRoutes(): void {
-    this.manager.get(
+    this.manager.post(
       this.root,
-      (req: Request, res: Response) => this.controller.allTeams(req, res),
-    );
-
-    this.manager.get(
-      this.pathId,
-      (
-        req: Request,
-        res: Response,
-        next: NextFunction,
-      ) => this.controller.teamById(req, res, next),
+      (req: Request, res: Response, next: NextFunction) => this.controller.login(req, res, next),
     );
   }
 

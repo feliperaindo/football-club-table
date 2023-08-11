@@ -1,3 +1,2 @@
-import TeamRoute from './teams';
-
-export default TeamRoute;
+export { default as TeamRoute } from './teams';
+export { default as LoginRoute } from './login';

@@ -5,7 +5,7 @@ import * as sinon from 'sinon';
 import chaiHttp = require('chai-http');
 
 // Mocks
-import teams from '../mocks/exporter';
+import { teams } from '../mocks/exporter';
 
 // types
 import * as types from '../../types/exporter';

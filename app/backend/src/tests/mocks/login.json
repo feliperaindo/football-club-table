@@ -1,0 +1,9 @@
+{
+  "validUser": {
+    "id": 1,
+    "role": "admin",
+    "email": "user@user.com",
+    "password": "valid_password",
+    "username": "user"
+  }
+}

@@ -2,11 +2,12 @@
 // import bcrypt from 'bcryptjs';
 import * as chai from 'chai';
 import * as sinon from 'sinon';
+import * as bcrypt from 'bcryptjs';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 
 // Mocks
-import teams from '../mocks/exporter';
+import { login } from '../mocks/exporter';
 
 // types
 import * as types from '../../types/exporter';
@@ -25,12 +26,17 @@ describe('Sequência de testes sobre a rota /login', function () {
   const PATH_ROOT = '/login';
 
   describe('Sequência de testes para casos de sucesso', function () {
-    const VALID_USER = { email: 'user@user.com', password: 'secret_user' };
     const OK_STATUS: types.Status = 200;
 
     it('Verifica se a rota retorna um token quando fornecido email e senha válidos', async function () {
-      const result = await chai.request(app).post(PATH_ROOT).send(VALID_USER);
+      const buildModel = models.UserModel.build(login.validUser);
+      const fakeModel = sinon.stub(models.UserModel, 'findOne').resolves(buildModel);
+      const fakeBcrypt = sinon.stub(bcrypt, 'compare').resolves(true);
 
+      const result = await chai.request(app).post(PATH_ROOT).send(login.validUser);
+
+      sinon.assert.calledOnce(fakeModel);
+      sinon.assert.calledOnce(fakeBcrypt);
       expect(result).to.have.status(OK_STATUS);
       expect(result.body).to.have.property('token');
     });

@@ -5,13 +5,13 @@ import { describe, it } from 'mocha';
 import * as sinonChai from 'sinon-chai';
 
 // Mocks
-import teams from '../../mocks/exporter';
+import { teams } from '../../mocks/exporter';
 
 // Model
 import * as model from '../../../database/models/exporter';
 
 // Repository a ser testada
-import TeamRepository from '../../../repository/exporter';
+import { TeamRepository } from '../../../repository/exporter';
 
 // configurations
 chai.use(sinonChai);

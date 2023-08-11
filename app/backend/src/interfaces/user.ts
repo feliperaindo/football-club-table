@@ -1,3 +1,3 @@
 export default interface IUserRepository<T> {
-  getOne(): Promise<T>;
+  getUser(email: string): Promise<T | null>;
 }

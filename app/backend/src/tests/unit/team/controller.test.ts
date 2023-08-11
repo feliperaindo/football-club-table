@@ -9,13 +9,13 @@ import { NextFunction, Request, Response } from 'express';
 import * as types from '../../../types/exporter';
 
 // Mocks
-import teams from '../../mocks/exporter';
+import { teams } from '../../mocks/exporter';
 
 // Service
-import TeamService from '../../../service/exporter';
+import { TeamService } from '../../../service/exporter';
 
 // Controller a ser testado
-import TeamController from '../../../controller/exporter';
+import { TeamController } from '../../../controller/exporter';
 
 // configurations
 chai.use(sinonChai);
