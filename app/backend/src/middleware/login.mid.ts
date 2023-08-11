@@ -8,15 +8,25 @@ import * as types from '../types/exporter';
 import { validators } from '../utils/exporter';
 
 export default class LoginMid {
-  private static statusBadRequest: types.Status = 400;
+  private static badRequest: types.Status = 400;
+  private static unauthorized: types.Status = 401;
 
   public static LoginValidation(req: Request, __res: Response, next: NextFunction): void {
     try {
       validators.loginFields(req.body);
+    } catch (e) {
+      const { message } = e as types.errors.ErrorType;
+      const error: types.errors.ErrorHandler = { message, http: this.badRequest };
+      next(error);
+    }
+
+    try {
+      validators.validateEmail(req.body.email);
+      validators.validatePassword(req.body.password);
       next();
     } catch (e) {
       const { message } = e as types.errors.ErrorType;
-      const error: types.errors.ErrorHandler = { message, http: this.statusBadRequest };
+      const error: types.errors.ErrorHandler = { message, http: this.unauthorized };
       next(error);
     }
   }

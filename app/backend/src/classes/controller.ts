@@ -4,6 +4,7 @@ import * as types from '../types/exporter';
 
 export default abstract class Controller {
   protected abstract service: Service;
-  protected readonly statusOk: types.Status = 200;
-  protected readonly statusNotFound: types.Status = 404;
+  protected readonly ok: types.Status = 200;
+  protected readonly notFound: types.Status = 404;
+  protected readonly unauthorized: types.Status = 401;
 }

@@ -11,7 +11,7 @@
     "password": "valid_password"
   },
   "invalidEmail": {
-    "email": "invalid_email",
+    "email": "invalid_email@invalid.com",
     "password": "valid_password"
   },
   "inexistentEmail": {
@@ -31,5 +31,13 @@
   "emptyPassword": {
     "email": "user@user.com",
     "password": ""
+  },
+  "unformattedEmail": {
+    "email": "unformatted_email@unformatted",
+    "password": "valid_password"
+  },
+  "shortPassword": {
+    "email": "user@user.com",
+    "password": "short"
   }
 }

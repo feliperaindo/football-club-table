@@ -45,39 +45,23 @@ describe('Sequência de testes sobre a rota /login', function () {
 
   describe('Sequência de testes para casos de falha', function () {
     // HTTP Status
-    const NOT_FOUND_STATUS: types.Status = 404;
     const BAD_REQUEST_STATUS: types.Status = 400;
+    const UNAUTHORIZED_STATUS: types.Status = 401;
 
     // Error messages
     const MESSAGE_FIELD = 'message';
     const EMPTY_FIELDS = 'All fields must be filled';
     const INVALID_EMAIL_PASSWORD = 'Invalid email or password';
 
-    it('Se lança mensagem e status de erro se o usuário não existir', async function () {
-      const fakeModel = sinon.stub(models.UserModel, 'findOne').resolves(null);
-
-      const result = await chai.request(app).post(PATH_ROOT).send(login.invalidEmail);
-
-      sinon.assert.calledOnce(fakeModel);
-      expect(result).to.have.status(NOT_FOUND_STATUS);
-      expect(result.body).to.have.property(MESSAGE_FIELD, INVALID_EMAIL_PASSWORD);
-    });
-
-    it('Se lança mensagem e status de erro se a senha for inválida', async function () {
-      const buildModel = models.UserModel.build(login.userForTest);
-      const fakeModel = sinon.stub(models.UserModel, 'findOne').resolves(buildModel);
-      const fakeBcrypt = sinon.stub(bcrypt, 'compare').resolves(false);
-
-      const result = await chai.request(app).post(PATH_ROOT).send(login.invalidPassword);
-
-      sinon.assert.calledOnce(fakeModel);
-      sinon.assert.calledOnce(fakeBcrypt);
-      expect(result).to.have.status(NOT_FOUND_STATUS);
-      expect(result.body).to.have.property(MESSAGE_FIELD, INVALID_EMAIL_PASSWORD);
-    });
-
     it('Se lança mensagem e status de erro caso não exista o campo password', async function () {
       const result = await chai.request(app).post(PATH_ROOT).send(login.inexistentPassword);
+
+      expect(result).to.have.status(BAD_REQUEST_STATUS);
+      expect(result.body).to.have.property(MESSAGE_FIELD, EMPTY_FIELDS);
+    });
+
+    it('Se lança mensagem e status de erro caso o campo password esteja vazio', async function () {
+      const result = await chai.request(app).post(PATH_ROOT).send(login.emptyPassword);
 
       expect(result).to.have.status(BAD_REQUEST_STATUS);
       expect(result.body).to.have.property(MESSAGE_FIELD, EMPTY_FIELDS);
@@ -97,11 +81,41 @@ describe('Sequência de testes sobre a rota /login', function () {
       expect(result.body).to.have.property(MESSAGE_FIELD, EMPTY_FIELDS);
     });
 
-    it('Se lança mensagem e status de erro caso o campo password esteja vazio', async function () {
-      const result = await chai.request(app).post(PATH_ROOT).send(login.emptyPassword);
+    it('Se lança mensagem e status de erro caso email não seja um email', async function () {
+      const result = await chai.request(app).post(PATH_ROOT).send(login.unformattedEmail);
 
-      expect(result).to.have.status(BAD_REQUEST_STATUS);
-      expect(result.body).to.have.property(MESSAGE_FIELD, EMPTY_FIELDS);
+      expect(result).to.have.status(UNAUTHORIZED_STATUS);
+      expect(result.body).to.have.property(MESSAGE_FIELD, INVALID_EMAIL_PASSWORD);
+    });
+
+    it('Se lança mensagem e status de erro caso password seja menor que 6 caracteres', async function () {
+      const result = await chai.request(app).post(PATH_ROOT).send(login.shortPassword);
+
+      expect(result).to.have.status(UNAUTHORIZED_STATUS);
+      expect(result.body).to.have.property(MESSAGE_FIELD, INVALID_EMAIL_PASSWORD);
+    });
+
+    it('Se lança mensagem e status de erro se o usuário não existir', async function () {
+      const fakeModel = sinon.stub(models.UserModel, 'findOne').resolves(null);
+
+      const result = await chai.request(app).post(PATH_ROOT).send(login.invalidEmail);
+
+      sinon.assert.calledOnce(fakeModel);
+      expect(result).to.have.status(UNAUTHORIZED_STATUS);
+      expect(result.body).to.have.property(MESSAGE_FIELD, INVALID_EMAIL_PASSWORD);
+    });
+
+    it('Se lança mensagem e status de erro se a senha for inválida', async function () {
+      const buildModel = models.UserModel.build(login.userForTest);
+      const fakeModel = sinon.stub(models.UserModel, 'findOne').resolves(buildModel);
+      const fakeBcrypt = sinon.stub(bcrypt, 'compare').resolves(false);
+
+      const result = await chai.request(app).post(PATH_ROOT).send(login.invalidPassword);
+
+      sinon.assert.calledOnce(fakeModel);
+      sinon.assert.calledOnce(fakeBcrypt);
+      expect(result).to.have.status(UNAUTHORIZED_STATUS);
+      expect(result.body).to.have.property(MESSAGE_FIELD, INVALID_EMAIL_PASSWORD);
     });
   });
 });

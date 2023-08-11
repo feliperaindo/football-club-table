@@ -16,10 +16,10 @@ export default class UserController extends classes.Controller {
   public async login(request: Request, response: Response, next: NextFunction): Promise<void> {
     try {
       const token = await this.service.getToken(request.body);
-      response.status(this.statusOk).send(token);
+      response.status(this.ok).send(token);
     } catch (e) {
       const { message } = e as types.errors.ErrorType;
-      const error: types.errors.ErrorHandler = { message, http: this.statusNotFound };
+      const error: types.errors.ErrorHandler = { message, http: this.unauthorized };
       next(error);
     }
   }
