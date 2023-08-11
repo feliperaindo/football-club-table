@@ -1,9 +1,35 @@
 {
-  "validUser": {
+  "userForTest": {
     "id": 1,
     "role": "admin",
     "email": "user@user.com",
-    "password": "valid_password",
+    "password": "encrypted_password",
     "username": "user"
+  },
+  "validUser": {
+    "email": "user@user.com",
+    "password": "valid_password"
+  },
+  "invalidEmail": {
+    "email": "invalid_email",
+    "password": "valid_password"
+  },
+  "inexistentEmail": {
+    "password": "valid_password"
+  },
+  "emptyEmail": {
+    "email": "",
+    "password": "valid_password"
+  },
+  "invalidPassword": {
+    "email": "user@user.com",
+    "password": "invalid_password"
+  },
+  "inexistentPassword": {
+    "email": "user@user.com"
+  },
+  "emptyPassword": {
+    "email": "user@user.com",
+    "password": ""
   }
 }

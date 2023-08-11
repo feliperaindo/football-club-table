@@ -5,7 +5,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import * as classes from '../classes/exporter';
 
 // Middleware
-import ErrorMid from '../middleware/error.mid';
+import { ErrorMid, LoginMid } from '../middleware/exporter';
 
 // Controller
 import * as controller from '../controller/exporter';
@@ -30,6 +30,7 @@ export default class LoginRoute extends classes.Routes {
   protected initializeRoutes(): void {
     this.manager.post(
       this.root,
+      (req: Request, res: Response, next: NextFunction) => LoginMid.LoginValidation(req, res, next),
       (req: Request, res: Response, next: NextFunction) => this.controller.login(req, res, next),
     );
   }
