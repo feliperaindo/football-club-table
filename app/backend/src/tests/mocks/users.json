@@ -1,0 +1,14 @@
+{
+  "admin": {
+    "username": "Admin",
+    "role": "admin",
+    "email": "admin@admin.com",
+    "password": "secret_admin"
+  },
+  "user": {
+    "username": "User",
+    "role": "user",
+    "email": "user@user.com",
+    "password": "secret_user"
+  }
+}

@@ -50,7 +50,7 @@ describe('Sequência de testes sobre a camada service da rota "/teams"', functio
   });
 
   describe('Sequência de testes para casos de falha', function () {
-    it('Verifica é lançado um erro caso o repository retorne null', async function () {
+    it('Verifica se é lançado um erro caso o repository retorne null', function () {
       const fakeRepository = sinon.stub(TeamRepository.prototype, 'getByPk').resolves(null);
 
       const result = service.getById(1);

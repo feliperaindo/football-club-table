@@ -38,6 +38,7 @@ describe('Sequência de testes sobre a camada controller da rota "/teams"', func
     beforeEach(function () {
       res.status = sinon.stub().returns(res);
       res.send = sinon.stub().returns(res);
+      next = sinon.stub().returns(null) as NextFunction;
     });
 
     afterEach(sinon.restore);
