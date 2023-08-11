@@ -15,7 +15,7 @@ export default class UserService extends classes.Service {
   protected repository = new repository.UserRepository();
 
   // utils
-  private jwt = new utils.JWT();
+  private jwt = utils.JWT;
 
   public async getToken(info: types.user.UserCreateToken): Promise<types.user.Token> {
     const user = await this.repository.getUser(info.email);
