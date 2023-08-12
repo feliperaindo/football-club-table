@@ -54,11 +54,17 @@ describe('Sequência de testes sobre a rota /login', function () {
     });
 
     it('Verifica se a rota "/login/role" retorna a função do usuário', async function () {
+      const buildModel = models.UserModel.build(login.userForTest as types.user.UserRegister);
+      const fakeModel = sinon.stub(models.UserModel, 'findOne').resolves(buildModel);
+      const fakeBcrypt = sinon.stub(bcrypt, 'compare').resolves(true);
+
       const { body } = await chai.request(app).post(PATH_ROOT).send(users.admin);
       const response = await chai.request(app)
         .get(PATH_ROLE)
-        .set(AUTHORIZATION, ` Bearer ${body.token}`);
+        .set(AUTHORIZATION, `Bearer ${body.token}`);
 
+      sinon.assert.calledOnce(fakeBcrypt);
+      sinon.assert.calledTwice(fakeModel);
       expect(response).to.have.status(OK_STATUS);
       expect(response.body).to.have.property('role', users.admin.role);
     });

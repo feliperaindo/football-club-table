@@ -2,9 +2,9 @@
   "userForTest": {
     "id": 1,
     "role": "admin",
-    "email": "user@user.com",
+    "email": "admin@admin.com",
     "password": "encrypted_password",
-    "username": "user"
+    "username": "Admin"
   },
   "validUser": {
     "email": "user@user.com",
