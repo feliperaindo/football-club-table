@@ -1,3 +1,4 @@
+// types
 import {
   Model,
   DataTypes,
@@ -5,13 +6,15 @@ import {
   CreationOptional,
   InferCreationAttributes,
 } from 'sequelize';
+import * as types from '../../types/exporter';
 
+// Sequelize
 import sequelize from '.';
 
 export default class UserModel extends Model<InferAttributes<UserModel>,
 InferCreationAttributes<UserModel>> {
   declare id: CreationOptional<number>;
-  declare role: string;
+  declare role: types.user.Roles;
   declare email: string;
   declare username: string;
   declare password: string;

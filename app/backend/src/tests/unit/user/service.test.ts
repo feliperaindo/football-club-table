@@ -1,10 +1,13 @@
-// Bibliotecas
+// Libraries
 import * as chai from 'chai';
 import * as sinon from 'sinon';
 import * as bcrypt from 'bcryptjs';
 import { describe, it } from 'mocha';
 import * as sinonChai from 'sinon-chai';
 import * as chaiAsPromised from 'chai-as-promised';
+
+// types
+import * as types from '../../../types/exporter';
 
 // Mocks
 import { login, users } from '../../mocks/exporter';
@@ -30,7 +33,7 @@ describe('Sequência de testes sobre a camada service da rota "/login"', functio
 
   describe('Sequência de testes para casos de sucesso', function () {
     it('Verifica se a camada retorna um token caso email e senha estejam corretos', async function () {
-      const buildModel = model.UserModel.build(users.admin);
+      const buildModel = model.UserModel.build(users.admin as types.user.UserRegister);
       const fakeBcrypt = sinon.stub(bcrypt, 'compare').resolves(true);
       const fakeRepository = sinon.stub(UserRepository.prototype, 'getUser').resolves(buildModel);
 
@@ -61,7 +64,7 @@ describe('Sequência de testes sobre a camada service da rota "/login"', functio
 
     it('Verifica se é lançado um erro caso a senha não esteja correta', function () {
       sinon.stub(bcrypt, 'compare').resolves(false);
-      const buildModel = model.UserModel.build(users.admin);
+      const buildModel = model.UserModel.build(users.admin as types.user.UserRegister);
       const fakeRepository = sinon.stub(UserRepository.prototype, 'getUser').resolves(buildModel);
 
       const result = service.getToken(login.invalidPassword);

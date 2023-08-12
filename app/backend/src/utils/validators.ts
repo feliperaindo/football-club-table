@@ -6,6 +6,7 @@ import checkers from '../helpers/checkers';
 
 export default class Validators {
   private static readonly fieldError: string = 'All fields must be filled';
+  private static readonly tokenFieldError: string = 'Token not found';
   private static readonly emailOrPasswordError: string = 'Invalid email or password';
 
   public static loginFields(body: types.user.UserCreateToken): void {
@@ -20,6 +21,12 @@ export default class Validators {
         throw new Error(this.fieldError);
       }
     });
+  }
+
+  public static authorizationField(headers: types.user.Authorization): void {
+    if (!checkers.checkKeys<types.user.Authorization>(headers, 'authorization')) {
+      throw new Error(this.tokenFieldError);
+    }
   }
 
   public static validateEmail(email: string): void {

@@ -7,6 +7,9 @@ import * as types from '../types/exporter';
 // classes
 import * as classes from '../classes/exporter';
 
+// utils
+import * as utils from '../utils/exporter';
+
 // service
 import * as service from '../service/exporter';
 
@@ -22,5 +25,11 @@ export default class UserController extends classes.Controller {
       const error: types.errors.ErrorHandler = { message, http: this.unauthorized };
       next(error);
     }
+  }
+
+  public async requireUserRole(request: Request, response: Response): Promise<void> {
+    const { email } = utils.JWT.decodeToken(request.headers.authorization as string);
+    const result = await this.service.getRole(email);
+    response.status(this.ok).send(result);
   }
 }

@@ -6,7 +6,7 @@ import * as bcrypt from 'bcryptjs';
 import chaiHttp = require('chai-http');
 
 // Mocks
-import { login } from '../mocks/exporter';
+import { login, users, token } from '../mocks/exporter';
 
 // types
 import * as types from '../../types/exporter';
@@ -22,15 +22,26 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe('Sequência de testes sobre a rota /login', function () {
+  // Paths
   const PATH_ROOT = '/login';
+  const PATH_ROLE = '/login/role';
+
+  // HTTP Status
+  const OK_STATUS: types.Status = 200;
+  const BAD_REQUEST_STATUS: types.Status = 400;
+  const UNAUTHORIZED_STATUS: types.Status = 401;
+
+  // Header
+  const AUTHORIZATION = 'authorization';
+
+  // Body
+  const MESSAGE_FIELD = 'message';
 
   afterEach(sinon.restore);
 
   describe('Sequência de testes para casos de sucesso', function () {
-    const OK_STATUS: types.Status = 200;
-
-    it('Verifica se a rota retorna um token quando fornecido email e senha válidos', async function () {
-      const buildModel = models.UserModel.build(login.userForTest);
+    it('Verifica se a rota "/login" retorna um token quando fornecido email e senha válidos', async function () {
+      const buildModel = models.UserModel.build(login.userForTest as types.user.UserRegister);
       const fakeModel = sinon.stub(models.UserModel, 'findOne').resolves(buildModel);
       const fakeBcrypt = sinon.stub(bcrypt, 'compare').resolves(true);
 
@@ -41,15 +52,20 @@ describe('Sequência de testes sobre a rota /login', function () {
       expect(result).to.have.status(OK_STATUS);
       expect(result.body).to.have.property('token');
     });
+
+    it('Verifica se a rota "/login/role" retorna a função do usuário', async function () {
+      const { body } = await chai.request(app).post(PATH_ROOT).send(users.admin);
+      const response = await chai.request(app)
+        .get(PATH_ROLE)
+        .set(AUTHORIZATION, ` Bearer ${body.token}`);
+
+      expect(response).to.have.status(OK_STATUS);
+      expect(response.body).to.have.property('role', users.admin.role);
+    });
   });
 
-  describe('Sequência de testes para casos de falha', function () {
-    // HTTP Status
-    const BAD_REQUEST_STATUS: types.Status = 400;
-    const UNAUTHORIZED_STATUS: types.Status = 401;
-
+  describe('Sequência de testes para casos de falha na rota "/login"', function () {
     // Error messages
-    const MESSAGE_FIELD = 'message';
     const EMPTY_FIELDS = 'All fields must be filled';
     const INVALID_EMAIL_PASSWORD = 'Invalid email or password';
 
@@ -106,7 +122,7 @@ describe('Sequência de testes sobre a rota /login', function () {
     });
 
     it('Se lança mensagem e status de erro se a senha for inválida', async function () {
-      const buildModel = models.UserModel.build(login.userForTest);
+      const buildModel = models.UserModel.build(login.userForTest as types.user.UserRegister);
       const fakeModel = sinon.stub(models.UserModel, 'findOne').resolves(buildModel);
       const fakeBcrypt = sinon.stub(bcrypt, 'compare').resolves(false);
 
@@ -116,6 +132,27 @@ describe('Sequência de testes sobre a rota /login', function () {
       sinon.assert.calledOnce(fakeBcrypt);
       expect(result).to.have.status(UNAUTHORIZED_STATUS);
       expect(result.body).to.have.property(MESSAGE_FIELD, INVALID_EMAIL_PASSWORD);
+    });
+  });
+
+  describe('Sequência de testes para casos de falha na rota "/login/role"', function () {
+    const TOKEN_NOT_FOUND = 'Token not found';
+    const TOKEN_INVALID = 'Token must be a valid token';
+
+    it('Verifica se lança um erro e status correto em caso de não fornecer um token', async function () {
+      const result = await chai.request(app).get(PATH_ROLE);
+
+      expect(result).to.have.status(UNAUTHORIZED_STATUS);
+      expect(result.body).to.have.property(MESSAGE_FIELD, TOKEN_NOT_FOUND);
+    });
+
+    it('Verifica se lança um erro e status correto em caso de fornecer um token inválido', async function () {
+      const result = await chai.request(app)
+        .get(PATH_ROLE)
+        .set(AUTHORIZATION, token.invalidToken);
+
+      expect(result).to.have.status(UNAUTHORIZED_STATUS);
+      expect(result.body).to.have.property(MESSAGE_FIELD, TOKEN_INVALID);
     });
   });
 });

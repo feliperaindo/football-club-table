@@ -1,5 +1,6 @@
 // types
 import * as types from '../types/exporter';
+import * as model from '../database/models/exporter';
 
 // classes
 import * as classes from '../classes/exporter';
@@ -31,5 +32,11 @@ export default class UserService extends classes.Service {
     }
 
     return { token: this.jwt.generateToken(info) };
+  }
+
+  public async getRole(email: string): Promise<types.user.UserRole> {
+    const user = await this.repository.getUser(email) as NonNullable<model.UserModel>;
+
+    return { role: user.role };
   }
 }
