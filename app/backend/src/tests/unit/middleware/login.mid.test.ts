@@ -38,7 +38,7 @@ describe('Sequência de testes sobre os middleware da rota "/login"', function (
 
   afterEach(sinon.restore);
 
-  it('O método validador de campo deve chamar a função next em caso de erro', function () {
+  it('O método validador dos campos de logins deve chamar a função next em caso de erro', function () {
     const fakeValidator = sinon.stub(validators, 'loginFields')
       .throws(function () { throw new Error(CUSTOM_ERROR_MESSAGE); });
 
