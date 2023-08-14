@@ -46,6 +46,16 @@ describe('Sequência de testes sobre a camada service da rota "/login"', functio
       expect(fakeRepository).to.have.been.calledWith(login.validUser.email);
       expect(fakeBcrypt).to.have.been.calledWith(login.validUser.password, buildModel.password);
     });
+
+    it('Verifica se a camada retorna a função do usuário logado', async function () {
+      const buildModel = model.UserModel.build(users.admin as types.user.UserRegister);
+      const fakeRepository = sinon.stub(UserRepository.prototype, 'getUser').resolves(buildModel);
+
+      const result = await service.getRole(users.admin.email);
+
+      sinon.assert.calledOnce(fakeRepository);
+      expect(result).to.have.property('role', users.admin.role);
+    });
   });
 
   describe('Sequência de testes para casos de falha', function () {

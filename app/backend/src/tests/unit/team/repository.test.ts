@@ -20,6 +20,8 @@ const { expect } = chai;
 describe('Sequência de testes sobre a camada repository da rota "/teams"', function () {
   const repository = new TeamRepository();
 
+  afterEach(sinon.restore);
+
   it('Verifica se a camada retorna um array de instâncias advinda da model', async function () {
     const buildModel = model.TeamModel.bulkBuild(teams);
     const fakeModel = sinon.stub(model.TeamModel, 'findAll').resolves(buildModel);

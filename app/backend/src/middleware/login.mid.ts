@@ -17,17 +17,17 @@ export default class LoginMid {
     } catch (e) {
       const { message } = e as types.errors.ErrorType;
       const error: types.errors.ErrorHandler = { message, http: this.badRequest };
-      next(error);
+      return next(error);
     }
 
     try {
       validators.validateEmail(req.body.email);
       validators.validatePassword(req.body.password);
-      next();
+      return next();
     } catch (e) {
       const { message } = e as types.errors.ErrorType;
       const error: types.errors.ErrorHandler = { message, http: this.unauthorized };
-      next(error);
+      return next(error);
     }
   }
 
@@ -37,18 +37,18 @@ export default class LoginMid {
     } catch (e) {
       const { message } = e as types.errors.ErrorType;
       const error: types.errors.ErrorHandler = { message, http: this.unauthorized };
-      next(error);
+      return next(error);
     }
 
     try {
       JWT.validateToken(req.headers.authorization as string);
-      next();
+      return next();
     } catch (__e) {
       const exception: types.errors.ErrorHandler = {
         http: this.unauthorized,
         message: 'Token must be a valid token',
       };
-      next(exception);
+      return next(exception);
     }
   }
 }

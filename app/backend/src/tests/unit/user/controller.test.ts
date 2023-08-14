@@ -1,6 +1,7 @@
 // Bibliotecas
 import * as chai from 'chai';
 import * as sinon from 'sinon';
+import * as jwt from 'jsonwebtoken';
 import { describe, it } from 'mocha';
 import * as sinonChai from 'sinon-chai';
 
@@ -36,6 +37,7 @@ describe('Sequência de testes sobre a camada controller da rota "/login"', func
 
   beforeEach(function () {
     req.body = login.validUser;
+    req.headers = { authorization: 'Bearer valid token' };
     res.status = sinon.stub().returns(res);
     res.send = sinon.stub().returns(res);
     next = sinon.stub().returns(null) as NextFunction;
@@ -53,6 +55,18 @@ describe('Sequência de testes sobre a camada controller da rota "/login"', func
       expect(res.send).to.have.been.calledWith(token);
       expect(res.status).to.have.been.calledWith(OK_STATUS);
       expect(fakeService).to.have.been.calledWith(login.validUser);
+    });
+
+    it('Verifica se a resposta retorna a função do usuário', async function () {
+      const fakeJWT = sinon.stub(jwt, 'decode').returns(login.validUser);
+      const fakeService = sinon.stub(UserService.prototype, 'getRole').resolves({ role: 'admin' });
+
+      await controller.requireUserRole(req, res);
+
+      sinon.assert.calledOnce(fakeJWT);
+      sinon.assert.calledOnce(fakeService);
+      expect(res.status).to.have.been.calledWith(OK_STATUS);
+      expect(res.send).to.have.been.calledWith({ role: 'admin' });
     });
   });
 

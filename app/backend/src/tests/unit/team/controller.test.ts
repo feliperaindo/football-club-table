@@ -34,15 +34,15 @@ describe('Sequência de testes sobre a camada controller da rota "/teams"', func
   // Controller
   const controller = new TeamController();
 
+  beforeEach(function () {
+    res.status = sinon.stub().returns(res);
+    res.send = sinon.stub().returns(res);
+    next = sinon.stub().returns(null) as NextFunction;
+  });
+
+  afterEach(sinon.restore);
+
   describe('Sequência de testes para casos de sucesso da requisição', function () {
-    beforeEach(function () {
-      res.status = sinon.stub().returns(res);
-      res.send = sinon.stub().returns(res);
-      next = sinon.stub().returns(null) as NextFunction;
-    });
-
-    afterEach(sinon.restore);
-
     it('Verifica se a resposta retorna status OK e todos os times cadastrados', async function () {
       const fakeService = sinon.stub(TeamService.prototype, 'getAll').resolves(teams);
 
@@ -71,9 +71,6 @@ describe('Sequência de testes sobre a camada controller da rota "/teams"', func
 
     it('Verifica se a função next é chamada com a estrutura de error correta', async function () {
       req.params = { id: '1000' };
-      res.status = sinon.stub().returns(res);
-      res.send = sinon.stub().returns(res);
-      next = sinon.stub().returns(null) as NextFunction;
 
       const fakeService = sinon
         .stub(TeamService.prototype, 'getById')
@@ -83,8 +80,6 @@ describe('Sequência de testes sobre a camada controller da rota "/teams"', func
 
       sinon.assert.calledOnce(fakeService);
       expect(next).to.have.been.calledWith(errorType);
-
-      sinon.restore();
     });
   });
 });
