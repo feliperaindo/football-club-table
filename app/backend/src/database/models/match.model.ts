@@ -6,6 +6,9 @@ import {
   InferCreationAttributes,
 } from 'sequelize';
 
+// types
+import { match } from '../../types/exporter';
+
 // Database and Models
 import sequelize from '.';
 import TeamModel from './team.model';
@@ -18,6 +21,8 @@ InferCreationAttributes<MatchModel>> {
   declare awayTeamId: number;
   declare homeTeamGoals: number;
   declare awayTeamGoals: number;
+  declare homeTeam?: match.TeamName;
+  declare awayTeam?: match.TeamName;
 }
 
 MatchModel.init(
@@ -27,7 +32,7 @@ MatchModel.init(
     awayTeamId: { type: DataTypes.INTEGER, allowNull: false, field: 'away_team_id' },
     homeTeamId: { type: DataTypes.INTEGER, allowNull: false, field: 'home_team_id' },
     awayTeamGoals: { type: DataTypes.INTEGER, allowNull: false, field: 'away_team_goals' },
-    homeTeamGoals: { type: DataTypes.INTEGER, allowNull: false, field: 'away_team_goals' },
+    homeTeamGoals: { type: DataTypes.INTEGER, allowNull: false, field: 'home_team_goals' },
   },
   { sequelize, modelName: 'matches', timestamps: false },
 );
@@ -35,4 +40,5 @@ MatchModel.init(
 TeamModel.hasMany(MatchModel, { foreignKey: 'homeTeamId', as: 'homeTeam' });
 TeamModel.hasMany(MatchModel, { foreignKey: 'awayTeamId', as: 'awayTeam' });
 
-MatchModel.belongsTo(TeamModel);
+MatchModel.belongsTo(TeamModel, { foreignKey: 'homeTeamId', as: 'homeTeam', targetKey: 'id' });
+MatchModel.belongsTo(TeamModel, { foreignKey: 'awayTeamId', as: 'awayTeam', targetKey: 'id' });
