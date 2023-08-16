@@ -30,7 +30,7 @@ export default class MatchRoute extends classes.Routes {
   protected initializeRoutes(): void {
     this.manager.get(
       this.root,
-      (req: Request, res: Response) => this.controller.allMatches(req, res),
+      (req: Request, res: Response) => this.controller.matchesByQuery(req, res),
     );
   }
 

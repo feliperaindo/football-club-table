@@ -5,7 +5,7 @@ import * as sinon from 'sinon';
 import chaiHttp = require('chai-http');
 
 // Mocks
-import { matches } from '../mocks/exporter';
+import { matches, matchesInProgress, matchesEnded } from '../mocks/exporter';
 
 // types
 import * as types from '../../types/exporter';
@@ -29,7 +29,7 @@ describe('Sequência de testes sobre a rota "/matches"', function () {
     describe('Sequência para casos de sucesso', function () {
       const OK: types.Status = 200;
 
-      it('Verifica se a rota raiz retorna todos os matches corretamente', async function () {
+      it('Se a rota raiz retorna todos os matches corretamente', async function () {
         const buildModel = models.MatchModel.bulkBuild(
           matches,
           {
@@ -47,6 +47,40 @@ describe('Sequência de testes sobre a rota "/matches"', function () {
         sinon.assert.calledOnce(fakeModel);
         expect(allMatches).to.have.status(OK);
         expect(allMatches.body).to.be.deep.equal(matches);
+      });
+
+      it('Se a rota raiz retorna os matches em progresso se fornecido a query "inProgress" como true', async function () {
+        const buildModel = models.MatchModel.bulkBuild(matchesInProgress, {
+          include:
+            [
+              { model: models.TeamModel, as: 'homeTeam', attributes: { exclude: ['id'] } },
+              { model: models.TeamModel, as: 'awayTeam', attributes: { exclude: ['id'] } },
+            ],
+        });
+        const fakeModel = sinon.stub(models.MatchModel, 'findAll').resolves(buildModel);
+
+        const response = await chai.request(app).get(PATH_ROOT).query({ inProgress: true });
+
+        sinon.assert.calledOnce(fakeModel);
+        expect(response).to.have.status(OK);
+        expect(response.body).to.be.deep.equal(matchesInProgress);
+      });
+
+      it('Se a rota raiz retorna os matches finalizados se fornecido a query "inProgress" como falsa', async function () {
+        const buildModel = models.MatchModel.bulkBuild(matchesEnded, {
+          include:
+            [
+              { model: models.TeamModel, as: 'homeTeam', attributes: { exclude: ['id'] } },
+              { model: models.TeamModel, as: 'awayTeam', attributes: { exclude: ['id'] } },
+            ],
+        });
+        const fakeModel = sinon.stub(models.MatchModel, 'findAll').resolves(buildModel);
+
+        const response = await chai.request(app).get(PATH_ROOT).query({ inProgress: true });
+
+        sinon.assert.calledOnce(fakeModel);
+        expect(response).to.have.status(OK);
+        expect(response.body).to.be.deep.equal(matchesEnded);
       });
     });
 

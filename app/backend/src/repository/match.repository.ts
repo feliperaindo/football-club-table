@@ -22,4 +22,15 @@ export default class MatchRepository extends classes.Repository
       },
     );
   }
+
+  public async getByProgress(progress: boolean): Promise<model.MatchModel[]> {
+    return this.model.findAll({
+      where: { inProgress: progress },
+      include:
+        [
+          { model: model.TeamModel, as: 'homeTeam', attributes: { exclude: ['id'] } },
+          { model: model.TeamModel, as: 'awayTeam', attributes: { exclude: ['id'] } },
+        ],
+    });
+  }
 }
