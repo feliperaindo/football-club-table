@@ -2,6 +2,11 @@ export type TeamName = {
   teamName: string | undefined
 };
 
+export type GoalsUpdate = {
+  homeTeamGoals: number,
+  awayTeamGoals: number
+};
+
 export type MatchInfo = {
   id: number,
   homeTeamId: number,
@@ -12,3 +17,7 @@ export type MatchInfo = {
   homeTeam: TeamName,
   awayTeam: TeamName
 };
+
+export type UpdateMatchStatus = [affectedCount: number];
+
+export type SuccessUpdate = { message: string };

@@ -4,6 +4,9 @@ import * as interfaces from '../interfaces/exporter';
 // classes
 import * as classes from '../classes/exporter';
 
+// types
+import * as types from '../types/exporter';
+
 // Model
 import * as model from '../database/models/exporter';
 
@@ -32,5 +35,23 @@ export default class MatchRepository extends classes.Repository
           { model: model.TeamModel, as: 'awayTeam', attributes: { exclude: ['id'] } },
         ],
     });
+  }
+
+  public async getById(id: number): Promise<model.MatchModel | null> {
+    return this.model.findByPk(id);
+  }
+
+  public async updateMatch(
+    goals: types.match.GoalsUpdate,
+    id: number,
+  ): Promise<types.match.UpdateMatchStatus> {
+    return this.model.update({
+      awayTeamGoals: goals.awayTeamGoals,
+      homeTeamGoals: goals.homeTeamGoals,
+    }, { where: { id } });
+  }
+
+  public async finishMatch(id: number): Promise<types.match.UpdateMatchStatus> {
+    return this.model.update({ inProgress: false }, { where: { id } });
   }
 }

@@ -8,7 +8,7 @@ import * as types from '../types/exporter';
 import * as classes from '../classes/exporter';
 
 // Middleware
-import { ErrorMid, LoginMid } from '../middleware/exporter';
+import { ErrorMid, LoginMid, TokenMid } from '../middleware/exporter';
 
 // Controller
 import * as controller from '../controller/exporter';
@@ -46,7 +46,7 @@ export default class LoginRoute extends classes.Routes {
         req: Request,
         res: Response,
         next: NextFunction,
-      ) => LoginMid.authorizationValidation(req, res, next),
+      ) => TokenMid.authorizationValidation(req, res, next),
       (req: Request, res: Response) => this.controller.requireUserRole(req, res),
     );
   }
