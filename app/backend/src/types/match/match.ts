@@ -7,6 +7,13 @@ export type GoalsUpdate = {
   awayTeamGoals: number
 };
 
+export type MatchPost = {
+  homeTeamId: number,
+  awayTeamId: number,
+  homeTeamGoals: number,
+  awayTeamGoals: number,
+};
+
 export type MatchInfo = {
   id: number,
   homeTeamId: number,
@@ -14,8 +21,8 @@ export type MatchInfo = {
   inProgress: boolean,
   homeTeamGoals: number,
   awayTeamGoals: number,
-  homeTeam: TeamName,
-  awayTeam: TeamName
+  homeTeam?: TeamName,
+  awayTeam?: TeamName
 };
 
 export type UpdateMatchStatus = [affectedCount: number];

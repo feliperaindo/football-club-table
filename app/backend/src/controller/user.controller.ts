@@ -14,7 +14,7 @@ import * as utils from '../utils/exporter';
 import * as service from '../service/exporter';
 
 export default class UserController extends classes.Controller {
-  protected service = new service.UserService();
+  protected readonly service = new service.UserService();
 
   constructor() {
     super();

@@ -11,7 +11,7 @@ import * as classes from '../classes/exporter';
 import * as service from '../service/exporter';
 
 export default class TeamController extends classes.Controller {
-  protected service = new service.TeamService();
+  protected readonly service = new service.TeamService();
 
   constructor() {
     super();

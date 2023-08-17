@@ -16,10 +16,28 @@ export default class MatchRoute extends classes.Routes {
   private readonly finish: string = '/:id/finish';
 
   // router
-  protected _router: Router = Router();
+  protected readonly _router: Router = Router();
 
   // controller
   protected controller = new controller.MatchController();
+
+  // middleware
+  private readonly finishMids = [
+    TokenMid.authValidation,
+    CommonMid.paramValidation,
+  ];
+
+  private readonly idMids = [
+    TokenMid.authValidation,
+    CommonMid.paramValidation,
+    MatchMid.updateValidation,
+  ];
+
+  private readonly postMids = [
+    TokenMid.authValidation,
+    MatchMid.registerValidation,
+    MatchMid.updateValidation,
+  ];
 
   constructor() {
     super();
@@ -34,19 +52,10 @@ export default class MatchRoute extends classes.Routes {
   protected initializeRoutes(): void {
     this.manager.get(this.root, this.controller.matchesByQuery);
 
-    this.manager.patch(
-      this.finish,
-      TokenMid.authValidation,
-      CommonMid.paramValidation,
-      this.controller.endMatch,
-    );
+    this.manager.patch(this.finish, this.finishMids, this.controller.endMatch);
 
-    this.manager.patch(
-      this.id,
-      TokenMid.authValidation,
-      CommonMid.paramValidation,
-      MatchMid.bodyValidation,
-      this.controller.updateScore,
-    );
+    this.manager.patch(this.id, this.idMids, this.controller.updateScore);
+
+    this.manager.post(this.root, this.postMids, this.controller.postMatch);
   }
 }

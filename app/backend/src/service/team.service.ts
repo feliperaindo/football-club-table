@@ -8,7 +8,7 @@ import * as classes from '../classes/exporter';
 import * as repository from '../repository/exporter';
 
 export default class TeamService extends classes.Service {
-  protected repository = new repository.TeamRepository();
+  protected readonly repository = new repository.TeamRepository();
 
   public async getAll(): Promise<Team[]> {
     const allTeams = await this.repository.getAll();
@@ -19,7 +19,7 @@ export default class TeamService extends classes.Service {
     const team = await this.repository.getByPk(id);
 
     if (team === null) {
-      throw new Error('Team not found');
+      throw new Error('There is no team with such id!');
     }
     return { id: team.id, teamName: team.teamName };
   }

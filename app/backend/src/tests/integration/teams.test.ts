@@ -63,7 +63,7 @@ describe('Sequência de testes sobre a rota "/teams"', function () {
 
         sinon.assert.calledOnce(fakeModel);
         expect(team).to.have.status(NOT_FOUND);
-        expect(team.body).to.be.deep.equal({ message: 'Team not found' });
+        expect(team.body).to.be.deep.equal({ message: 'There is no team with such id!' });
       });
     });
   });

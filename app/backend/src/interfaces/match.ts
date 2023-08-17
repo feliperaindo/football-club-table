@@ -4,9 +4,11 @@ import * as types from '../types/exporter';
 export default interface ITeamRepository<T> {
   getAll(): Promise<T[]>;
 
+  getById(id: number): Promise<T | null>;
+
   getByProgress(progress: boolean): Promise<T[]>;
 
-  getById(id: number): Promise<T | null>;
+  createMatch(matchInfo: types.match.MatchPost): Promise<T>
 
   updateMatch(
     goals: types.match.GoalsUpdate,

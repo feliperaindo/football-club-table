@@ -9,7 +9,7 @@ import * as model from '../database/models/exporter';
 
 export default class UserRepository extends classes.Repository
   implements interfaces.IUserRepository<model.UserModel> {
-  protected model = model.UserModel;
+  protected readonly model = model.UserModel;
 
   public async getUser(email: string): Promise<model.UserModel | null> {
     return this.model.findOne({ where: { email } });

@@ -58,7 +58,7 @@ describe('Sequência de testes sobre a camada service da rota "/teams"', functio
       sinon.assert.calledOnce(fakeRepository);
       return expect(result).to.eventually.be
         .rejectedWith(Error).to.have
-        .ownProperty('message', 'Team not found');
+        .ownProperty('message', 'There is no team with such id!');
     });
   });
 });

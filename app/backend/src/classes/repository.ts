@@ -1,3 +1,3 @@
 export default abstract class Repository {
-  protected abstract model: unknown;
+  protected abstract readonly model: unknown;
 }

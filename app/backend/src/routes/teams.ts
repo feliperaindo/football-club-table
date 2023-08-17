@@ -18,10 +18,10 @@ export default class TeamRoute extends classes.Routes {
   private readonly pathId: types.routes.common.Id = '/:id';
 
   // router
-  protected _router: Router = Router();
+  protected readonly _router: Router = Router();
 
   // controller
-  protected controller = new controller.TeamController();
+  protected readonly controller = new controller.TeamController();
 
   constructor() {
     super();

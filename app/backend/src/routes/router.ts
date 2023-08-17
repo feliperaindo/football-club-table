@@ -11,10 +11,10 @@ import * as routes from './exporter';
 import * as types from '../types/exporter';
 
 export default class RouterManager extends classes.Routes {
-  protected controller?: classes.Controller | undefined;
+  protected readonly controller?: classes.Controller | undefined;
 
   // router
-  protected _router: Router = Router();
+  protected readonly _router: Router = Router();
 
   // routes names
   private readonly teams: types.routes.AllRoutes = '/teams';

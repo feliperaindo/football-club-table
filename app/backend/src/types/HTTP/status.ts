@@ -1,1 +1,1 @@
-export type Status = 200 | 404 | 400 | 401;
+export type Status = 200 | 201 | 404 | 400 | 401 | 422;

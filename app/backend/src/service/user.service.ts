@@ -13,7 +13,7 @@ import * as repository from '../repository/exporter';
 
 export default class UserService extends classes.Service {
   // repository
-  protected repository = new repository.UserRepository();
+  protected readonly repository = new repository.UserRepository();
 
   public async getToken(info: types.user.UserCreateToken): Promise<types.user.Token> {
     const user = await this.repository.getUser(info.email);

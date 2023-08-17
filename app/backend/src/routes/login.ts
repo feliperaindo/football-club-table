@@ -18,7 +18,7 @@ export default class LoginRoute extends classes.Routes {
   private readonly role: types.routes.common.Role = '/role';
 
   // router
-  protected _router: Router = Router();
+  protected readonly _router: Router = Router();
 
   // controller
   protected controller = new controller.UserController();

@@ -14,7 +14,7 @@ import * as repository from '../repository/exporter';
 export default class MatchService extends classes.Service {
   private readonly zero: number = 0;
 
-  protected repository = new repository.MatchRepository();
+  protected readonly repository = new repository.MatchRepository();
 
   private static createMatchObj(matches: models.MatchModel[]): match.MatchInfo[] {
     return matches.map((eachMatch) => ({
@@ -47,12 +47,9 @@ export default class MatchService extends classes.Service {
     if (!existMatch.inProgress) { throw new Error('Match already ended'); }
   }
 
-  public async finishMatch(id: number): Promise<types.match.SuccessUpdate> {
-    const finished = await this.repository.finishMatch(id);
-
-    if (finished[0] === this.zero) { throw new Error('It was not possible finish the match'); }
-
-    return { message: 'Finalizado' };
+  public async createMatch(info: types.match.MatchPost): Promise<types.match.MatchInfo> {
+    const newMatch = await this.repository.createMatch(info);
+    return { ...newMatch.dataValues };
   }
 
   public async updateScore(
@@ -64,5 +61,13 @@ export default class MatchService extends classes.Service {
     if (newScore[0] === this.zero) { throw new Error('It was not possible update the score.'); }
 
     return { message: 'Score updated.' };
+  }
+
+  public async finishMatch(id: number): Promise<types.match.SuccessUpdate> {
+    const finished = await this.repository.finishMatch(id);
+
+    if (finished[0] === this.zero) { throw new Error('It was not possible finish the match'); }
+
+    return { message: 'Finalizado' };
   }
 }

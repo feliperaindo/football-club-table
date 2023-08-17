@@ -9,7 +9,7 @@ import * as model from '../database/models/exporter';
 
 export default class TeamRepository extends classes.Repository
   implements interfaces.ITeamRepository<model.TeamModel> {
-  protected model = model.TeamModel;
+  protected readonly model = model.TeamModel;
 
   public async getAll(): Promise<model.TeamModel[]> {
     return this.model.findAll();

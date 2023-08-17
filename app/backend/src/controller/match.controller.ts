@@ -11,11 +11,13 @@ import * as types from '../types/exporter';
 import * as service from '../service/exporter';
 
 export default class MatchController extends classes.Controller {
-  protected service = new service.MatchService();
+  private readonly teamService = new service.TeamService();
+  protected readonly service = new service.MatchService();
 
   constructor() {
     super();
     this.endMatch = this.endMatch.bind(this);
+    this.postMatch = this.postMatch.bind(this);
     this.allMatches = this.allMatches.bind(this);
     this.updateScore = this.updateScore.bind(this);
     this.matchesByQuery = this.matchesByQuery.bind(this);
@@ -39,6 +41,20 @@ export default class MatchController extends classes.Controller {
       case 'true': return this.filteredMatches(response, true);
       case 'false': return this.filteredMatches(response, false);
       default: return this.allMatches(response);
+    }
+  }
+
+  public async postMatch(request: Rq, response: Rp, next: NF): Promise<void> {
+    try {
+      const { awayTeamId, homeTeamId } = request.body as types.match.MatchPost;
+      await this.teamService.getById(awayTeamId);
+      await this.teamService.getById(homeTeamId);
+      const newMatch = await this.service.createMatch(request.body);
+      response.status(this.created).send(newMatch);
+    } catch (e) {
+      const { message } = e as types.errors.ErrorType;
+      const error: types.errors.ErrorHandler = { message, http: this.notFound };
+      next(error);
     }
   }
 

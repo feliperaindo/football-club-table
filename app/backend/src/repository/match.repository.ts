@@ -14,6 +14,7 @@ export default class MatchRepository extends classes.Repository
   implements interfaces.IMatchRepository<model.MatchModel> {
   protected model = model.MatchModel;
 
+  // Readers
   public async getAll(): Promise<model.MatchModel[]> {
     return this.model.findAll(
       {
@@ -24,6 +25,10 @@ export default class MatchRepository extends classes.Repository
           ],
       },
     );
+  }
+
+  public async getById(id: number): Promise<model.MatchModel | null> {
+    return this.model.findByPk(id);
   }
 
   public async getByProgress(progress: boolean): Promise<model.MatchModel[]> {
@@ -37,10 +42,12 @@ export default class MatchRepository extends classes.Repository
     });
   }
 
-  public async getById(id: number): Promise<model.MatchModel | null> {
-    return this.model.findByPk(id);
+  // Creates
+  public async createMatch(matchInfo: types.match.MatchPost): Promise<model.MatchModel> {
+    return this.model.create({ ...matchInfo, inProgress: true });
   }
 
+  // Updates
   public async updateMatch(
     goals: types.match.GoalsUpdate,
     id: number,
