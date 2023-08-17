@@ -1,5 +1,5 @@
 // libraries
-import { Response, Request, NextFunction } from 'express';
+import { Request as Rq, Response as Rp, NextFunction as NF } from 'express';
 
 // classes
 import * as classes from '../classes/exporter';
@@ -13,17 +13,26 @@ import * as service from '../service/exporter';
 export default class MatchController extends classes.Controller {
   protected service = new service.MatchService();
 
-  private async allMatches(response: Response): Promise<void> {
+  constructor() {
+    super();
+    this.endMatch = this.endMatch.bind(this);
+    this.allMatches = this.allMatches.bind(this);
+    this.updateScore = this.updateScore.bind(this);
+    this.matchesByQuery = this.matchesByQuery.bind(this);
+    this.filteredMatches = this.filteredMatches.bind(this);
+  }
+
+  private async allMatches(response: Rp): Promise<void> {
     const all = await this.service.getAll();
     response.status(this.ok).send(all);
   }
 
-  private async filteredMatches(response: Response, progress: boolean): Promise<void> {
+  private async filteredMatches(response: Rp, progress: boolean): Promise<void> {
     const matches = await this.service.getByProgress(progress);
     response.status(this.ok).send(matches);
   }
 
-  public matchesByQuery(request: Request, response: Response): Promise<void> {
+  public matchesByQuery(request: Rq, response: Rp): Promise<void> {
     const selectProgress = request.query?.inProgress ?? null;
 
     switch (selectProgress) {
@@ -33,11 +42,7 @@ export default class MatchController extends classes.Controller {
     }
   }
 
-  public async updateScore(
-    request: Request,
-    response: Response,
-    next: NextFunction,
-  ): Promise<void> {
+  public async updateScore(request: Rq, response: Rp, next: NF): Promise<void> {
     const { params: { id }, body } = request;
 
     try {
@@ -51,9 +56,8 @@ export default class MatchController extends classes.Controller {
     }
   }
 
-  public async endMatch(request: Request, response: Response, next: NextFunction): Promise<void> {
+  public async endMatch(request: Rq, response: Rp, next: NF): Promise<void> {
     const { id } = request.params;
-
     try {
       await this.service.checkValidMatch(Number(id));
       const finished = await this.service.finishMatch(Number(id));

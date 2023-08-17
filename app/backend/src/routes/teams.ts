@@ -1,5 +1,5 @@
 // Libraries
-import { Router, Request as Rq, Response as Rp, NextFunction as NF } from 'express';
+import { Router } from 'express';
 
 // Classes
 import * as classes from '../classes/exporter';
@@ -8,7 +8,7 @@ import * as classes from '../classes/exporter';
 import * as types from '../types/exporter';
 
 // Middleware
-import { ErrorMid, CommonMid } from '../middleware/exporter';
+import { CommonMid } from '../middleware/exporter';
 
 // Controller
 import * as controller from '../controller/exporter';
@@ -34,16 +34,8 @@ export default class TeamRoute extends classes.Routes {
 
   // methods
   protected initializeRoutes(): void {
-    this.manager.get(this.root, (req: Rq, res: Rp) => this.controller.allTeams(req, res));
+    this.manager.get(this.root, this.controller.allTeams);
 
-    this.manager.get(
-      this.pathId,
-      (req: Rq, res: Rp, next: NF) => CommonMid.paramValidation(req, res, next),
-      (req: Rq, res: Rp, next: NF) => this.controller.teamById(req, res, next),
-    );
-  }
-
-  protected errorHandler(): void {
-    this.manager.use(ErrorMid.errorHandler);
+    this.manager.get(this.pathId, CommonMid.paramValidation, this.controller.teamById);
   }
 }

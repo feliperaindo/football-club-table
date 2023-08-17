@@ -13,6 +13,12 @@ import * as service from '../service/exporter';
 export default class TeamController extends classes.Controller {
   protected service = new service.TeamService();
 
+  constructor() {
+    super();
+    this.allTeams = this.allTeams.bind(this);
+    this.teamById = this.teamById.bind(this);
+  }
+
   public async allTeams(__request: Request, response: Response): Promise<void> {
     const all = await this.service.getAll();
     response.status(this.ok).send(all);

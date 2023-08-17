@@ -16,6 +16,12 @@ import * as service from '../service/exporter';
 export default class UserController extends classes.Controller {
   protected service = new service.UserService();
 
+  constructor() {
+    super();
+    this.login = this.login.bind(this);
+    this.requireUserRole = this.requireUserRole.bind(this);
+  }
+
   public async login(request: Request, response: Response, next: NextFunction): Promise<void> {
     try {
       const token = await this.service.getToken(request.body);

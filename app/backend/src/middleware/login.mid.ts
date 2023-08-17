@@ -16,7 +16,7 @@ export default class LoginMid {
       validators.loginFields(req.body);
     } catch (e) {
       const { message } = e as types.errors.ErrorType;
-      const error: types.errors.ErrorHandler = { message, http: this.badRequest };
+      const error: types.errors.ErrorHandler = { message, http: LoginMid.badRequest };
       return next(error);
     }
 
@@ -26,7 +26,7 @@ export default class LoginMid {
       return next();
     } catch (e) {
       const { message } = e as types.errors.ErrorType;
-      const error: types.errors.ErrorHandler = { message, http: this.unauthorized };
+      const error: types.errors.ErrorHandler = { message, http: LoginMid.unauthorized };
       return next(error);
     }
   }

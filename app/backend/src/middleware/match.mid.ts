@@ -16,7 +16,7 @@ export default class MatchMid {
       return next();
     } catch (e) {
       const { message } = e as types.errors.ErrorType;
-      const error: types.errors.ErrorHandler = { message, http: this.badRequest };
+      const error: types.errors.ErrorHandler = { message, http: MatchMid.badRequest };
       return next(error);
     }
   }

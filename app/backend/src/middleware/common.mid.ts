@@ -8,7 +8,7 @@ import * as types from '../types/exporter';
 import { validators } from '../utils/exporter';
 
 export default class CommonMid {
-  private static badRequest: types.Status = 400;
+  private static readonly badRequest: types.Status = 400;
 
   public static paramValidation(req: Request, __res: Response, next: NextFunction): void {
     try {
@@ -16,7 +16,7 @@ export default class CommonMid {
       return next();
     } catch (e) {
       const { message } = e as types.errors.ErrorType;
-      const error: types.errors.ErrorHandler = { message, http: this.badRequest };
+      const error: types.errors.ErrorHandler = { message, http: CommonMid.badRequest };
       return next(error);
     }
   }

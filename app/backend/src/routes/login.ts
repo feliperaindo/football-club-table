@@ -1,5 +1,5 @@
 // Libraries
-import { Router, Request as Rq, Response as Rp, NextFunction as NF } from 'express';
+import { Router } from 'express';
 
 // types
 import * as types from '../types/exporter';
@@ -8,7 +8,7 @@ import * as types from '../types/exporter';
 import * as classes from '../classes/exporter';
 
 // Middleware
-import { ErrorMid, LoginMid, TokenMid } from '../middleware/exporter';
+import { LoginMid, TokenMid } from '../middleware/exporter';
 
 // Controller
 import * as controller from '../controller/exporter';
@@ -25,6 +25,7 @@ export default class LoginRoute extends classes.Routes {
 
   constructor() {
     super();
+    this.controller.requireUserRole.bind(this);
     this.initializeRoutes();
     this.errorHandler();
   }
@@ -34,20 +35,8 @@ export default class LoginRoute extends classes.Routes {
 
   // methods
   protected initializeRoutes(): void {
-    this.manager.post(
-      this.root,
-      (req: Rq, res: Rp, next: NF) => LoginMid.LoginValidation(req, res, next),
-      (req: Rq, res: Rp, next: NF) => this.controller.login(req, res, next),
-    );
+    this.manager.post(this.root, LoginMid.LoginValidation, this.controller.login);
 
-    this.manager.get(
-      this.role,
-      (req: Rq, res: Rp, next: NF) => TokenMid.authValidation(req, res, next),
-      (req: Rq, res: Rp) => this.controller.requireUserRole(req, res),
-    );
-  }
-
-  protected errorHandler(): void {
-    this.manager.use(ErrorMid.errorHandler);
+    this.manager.get(this.role, TokenMid.authValidation, this.controller.requireUserRole);
   }
 }

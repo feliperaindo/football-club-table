@@ -6,14 +6,14 @@ import * as types from '../types/exporter';
 import { validators, JWT } from '../utils/exporter';
 
 export default class TokenMid {
-  private static unauthorized: types.Status = 401;
+  private static readonly unauthorized: types.Status = 401;
 
   public static authValidation(req: Request, __res: Response, next: NextFunction): void {
     try {
       validators.authorizationField(req.headers as types.user.Authorization);
     } catch (e) {
       const { message } = e as types.errors.ErrorType;
-      const error: types.errors.ErrorHandler = { message, http: this.unauthorized };
+      const error: types.errors.ErrorHandler = { message, http: TokenMid.unauthorized };
       return next(error);
     }
 
@@ -22,7 +22,7 @@ export default class TokenMid {
       return next();
     } catch (__e) {
       const exception: types.errors.ErrorHandler = {
-        http: this.unauthorized,
+        http: TokenMid.unauthorized,
         message: 'Token must be a valid token',
       };
       return next(exception);

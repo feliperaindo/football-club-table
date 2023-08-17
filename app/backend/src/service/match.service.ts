@@ -52,7 +52,7 @@ export default class MatchService extends classes.Service {
 
     if (finished[0] === this.zero) { throw new Error('It was not possible finish the match'); }
 
-    return { message: 'Finished' };
+    return { message: 'Finalizado' };
   }
 
   public async updateScore(

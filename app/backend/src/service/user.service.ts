@@ -15,9 +15,6 @@ export default class UserService extends classes.Service {
   // repository
   protected repository = new repository.UserRepository();
 
-  // utils
-  private jwt = utils.JWT;
-
   public async getToken(info: types.user.UserCreateToken): Promise<types.user.Token> {
     const user = await this.repository.getUser(info.email);
 
@@ -31,7 +28,7 @@ export default class UserService extends classes.Service {
       throw new Error('Invalid email or password');
     }
 
-    return { token: this.jwt.generateToken(info) };
+    return { token: utils.JWT.generateToken(info) };
   }
 
   public async getRole(email: string): Promise<types.user.UserRole> {
