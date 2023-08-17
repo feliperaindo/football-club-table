@@ -4,6 +4,9 @@ import { Router } from 'express';
 // Classes
 import * as classes from '../classes/exporter';
 
+// middleware
+import { ErrorMid } from '../middleware/exporter';
+
 // Routes
 import * as routes from './exporter';
 
@@ -49,7 +52,6 @@ export default class RouterManager extends classes.Routes {
   }
 
   protected errorHandler(): void {
-    this._router.get('test');
-    // this._router.use();
+    this.manager.use(ErrorMid.errorHandler);
   }
 }

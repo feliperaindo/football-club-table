@@ -8,6 +8,8 @@ export default class Validators {
   private static readonly fieldError: string = 'All fields must be filled';
   private static readonly tokenFieldError: string = 'Token not found';
   private static readonly emailOrPasswordError: string = 'Invalid email or password';
+  private static readonly invalidIdError: string = 'Only numbers accepted for id';
+  private static readonly invalidGoalField: string = 'Invalid goals number';
 
   public static loginFields(body: types.user.UserCreateToken): void {
     type KeyBody = keyof types.user.UserCreateToken;
@@ -17,8 +19,20 @@ export default class Validators {
         throw new Error(this.fieldError);
       }
 
-      if (checkers.isEmpty(body[field as KeyBody])) {
+      if (checkers.isEmpty(body[field as KeyBody])) { throw new Error(this.fieldError); }
+    });
+  }
+
+  public static matchGoalFields(body: types.match.GoalsUpdate): void {
+    type KeyBody = keyof types.match.GoalsUpdate;
+
+    ['homeTeamGoals', 'awayTeamGoals'].forEach((field) => {
+      if (!checkers.checkKeys<types.match.GoalsUpdate>(body, field)) {
         throw new Error(this.fieldError);
+      }
+
+      if (!checkers.checkOnlyNumbers(body[field as KeyBody].toString())) {
+        throw new Error(this.invalidGoalField);
       }
     });
   }
@@ -30,14 +44,14 @@ export default class Validators {
   }
 
   public static validateEmail(email: string): void {
-    if (!checkers.checkEmail(email)) {
-      throw new Error(this.emailOrPasswordError);
-    }
+    if (!checkers.checkEmail(email)) { throw new Error(this.emailOrPasswordError); }
   }
 
   public static validatePassword(password: string): void {
-    if (!checkers.checkPassword(password)) {
-      throw new Error(this.emailOrPasswordError);
-    }
+    if (!checkers.checkPassword(password)) { throw new Error(this.emailOrPasswordError); }
+  }
+
+  public static validateId(id: string): void {
+    if (!checkers.checkOnlyNumbers(id)) { throw new Error(this.invalidIdError); }
   }
 }

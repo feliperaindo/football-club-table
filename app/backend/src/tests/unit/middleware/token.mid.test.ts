@@ -40,7 +40,7 @@ describe('Sequência de testes sobre os middleware da rota "/login"', function (
       const fakeValidator = sinon.stub(validators, 'authorizationField')
         .throws(function () { throw new Error(CUSTOM_ERROR_MESSAGE); });
 
-      TokenMid.authorizationValidation(req, res, next);
+      TokenMid.authValidation(req, res, next);
 
       sinon.assert.calledOnce(fakeValidator);
       expect(next).to.have.been.calledOnceWith({ message: CUSTOM_ERROR_MESSAGE, http: UNAUTHORIZED });
@@ -50,7 +50,7 @@ describe('Sequência de testes sobre os middleware da rota "/login"', function (
       const fakeValidator = sinon.stub(JWT, 'validateToken')
         .throws(function () { throw new Error(); });
 
-      TokenMid.authorizationValidation(req, res, next);
+      TokenMid.authValidation(req, res, next);
 
       sinon.assert.calledOnce(fakeValidator);
       expect(next).to.have.been.calledWith({ message: TOKEN_ERROR_MESSAGE, http: UNAUTHORIZED });
@@ -59,7 +59,7 @@ describe('Sequência de testes sobre os middleware da rota "/login"', function (
     it('A classe deve chamar a função next sem parâmetro em caso de sucesso das validações', function () {
       const fakeJWT = sinon.stub(jwt, 'verify').callsFake(function () { return null; });
 
-      TokenMid.authorizationValidation(req, res, next);
+      TokenMid.authValidation(req, res, next);
 
       sinon.assert.calledOnce(fakeJWT);
       expect(next).to.have.been.calledWith();

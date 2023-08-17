@@ -1,5 +1,5 @@
 // Libraries
-import { Router, Request, Response, NextFunction } from 'express';
+import { Router, Request as Rq, Response as Rp, NextFunction as NF } from 'express';
 
 // types
 import * as types from '../types/exporter';
@@ -36,22 +36,18 @@ export default class LoginRoute extends classes.Routes {
   protected initializeRoutes(): void {
     this.manager.post(
       this.root,
-      (req: Request, res: Response, next: NextFunction) => LoginMid.LoginValidation(req, res, next),
-      (req: Request, res: Response, next: NextFunction) => this.controller.login(req, res, next),
+      (req: Rq, res: Rp, next: NF) => LoginMid.LoginValidation(req, res, next),
+      (req: Rq, res: Rp, next: NF) => this.controller.login(req, res, next),
     );
 
     this.manager.get(
       this.role,
-      (
-        req: Request,
-        res: Response,
-        next: NextFunction,
-      ) => TokenMid.authorizationValidation(req, res, next),
-      (req: Request, res: Response) => this.controller.requireUserRole(req, res),
+      (req: Rq, res: Rp, next: NF) => TokenMid.authValidation(req, res, next),
+      (req: Rq, res: Rp) => this.controller.requireUserRole(req, res),
     );
   }
 
   protected errorHandler(): void {
-    this._router.use(ErrorMid.errorHandler);
+    this.manager.use(ErrorMid.errorHandler);
   }
 }

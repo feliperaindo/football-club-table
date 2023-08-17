@@ -8,7 +8,7 @@ import { validators, JWT } from '../utils/exporter';
 export default class TokenMid {
   private static unauthorized: types.Status = 401;
 
-  public static authorizationValidation(req: Request, __res: Response, next: NextFunction): void {
+  public static authValidation(req: Request, __res: Response, next: NextFunction): void {
     try {
       validators.authorizationField(req.headers as types.user.Authorization);
     } catch (e) {

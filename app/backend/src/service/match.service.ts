@@ -42,17 +42,17 @@ export default class MatchService extends classes.Service {
   public async checkValidMatch(id: number): Promise<void> {
     const existMatch = await this.repository.getById(id);
 
-    if (existMatch === null) { throw new Error('Match not found.'); }
+    if (existMatch === null) { throw new Error('Match not found'); }
 
-    if (!existMatch.inProgress) { throw new Error('Match already ended.'); }
+    if (!existMatch.inProgress) { throw new Error('Match already ended'); }
   }
 
   public async finishMatch(id: number): Promise<types.match.SuccessUpdate> {
     const finished = await this.repository.finishMatch(id);
 
-    if (finished[0] === this.zero) { throw new Error('It was not possible finish the match.'); }
+    if (finished[0] === this.zero) { throw new Error('It was not possible finish the match'); }
 
-    return { message: 'Finished.' };
+    return { message: 'Finished' };
   }
 
   public async updateScore(

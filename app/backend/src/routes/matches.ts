@@ -1,11 +1,11 @@
 // Libraries
-import { Router, Request, Response, NextFunction } from 'express';
+import { Router, Request as Rq, Response as Rp, NextFunction as NF } from 'express';
 
 // Classes
 import * as classes from '../classes/exporter';
 
 // Middleware
-import { ErrorMid, TokenMid } from '../middleware/exporter';
+import { ErrorMid, TokenMid, MatchMid, CommonMid } from '../middleware/exporter';
 
 // Controller
 import * as controller from '../controller/exporter';
@@ -32,26 +32,23 @@ export default class MatchRoute extends classes.Routes {
 
   // methods
   protected initializeRoutes(): void {
-    this.manager.get(this.root, (req: Request, res: Response) =>
-      this.controller.matchesByQuery(req, res));
+    this.manager.get(this.root, (req: Rq, res: Rp) => this.controller.matchesByQuery(req, res));
+
+    this.manager.use(TokenMid.authValidation, CommonMid.paramValidation);
 
     this.manager.patch(
       this.finish,
-      (req: Request, res: Response, next: NextFunction) =>
-        TokenMid.authorizationValidation(req, res, next),
-      (req: Request, res: Response, next: NextFunction) => this.controller.endMatch(req, res, next),
+      (req: Rq, res: Rp, next: NF) => this.controller.endMatch(req, res, next),
     );
 
     this.manager.patch(
       this.id,
-      (req: Request, res: Response, next: NextFunction) =>
-        TokenMid.authorizationValidation(req, res, next),
-      (req: Request, res: Response, next: NextFunction) =>
-        this.controller.updateScore(req, res, next),
+      (req: Rq, res: Rp, next: NF) => MatchMid.bodyValidation(req, res, next),
+      (req: Rq, res: Rp, next: NF) => this.controller.updateScore(req, res, next),
     );
   }
 
   protected errorHandler(): void {
-    this._router.use(ErrorMid.errorHandler);
+    this.manager.use(ErrorMid.errorHandler);
   }
 }
