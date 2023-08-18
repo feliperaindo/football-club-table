@@ -5,7 +5,7 @@ import * as sinon from 'sinon';
 import chaiHttp = require('chai-http');
 
 // Mocks
-import { matches, matchesInProgress, matchesEnded } from '../mocks/exporter';
+import * as mocks from '../mocks/exporter';
 
 // types
 import * as types from '../../types/exporter';
@@ -31,7 +31,7 @@ describe('Sequência de testes sobre a rota "/matches"', function () {
 
       it('Se a rota raiz retorna todos os matches corretamente', async function () {
         const buildModel = models.MatchModel.bulkBuild(
-          matches,
+          mocks.matches,
           {
             include:
               [
@@ -46,11 +46,11 @@ describe('Sequência de testes sobre a rota "/matches"', function () {
 
         sinon.assert.calledOnce(fakeModel);
         expect(allMatches).to.have.status(OK);
-        expect(allMatches.body).to.be.deep.equal(matches);
+        expect(allMatches.body).to.be.deep.equal(mocks.matches);
       });
 
-      it('Se a rota raiz retorna os matches em progresso se fornecido a query "inProgress" como true', async function () {
-        const buildModel = models.MatchModel.bulkBuild(matchesInProgress, {
+      it('Se a rota raiz retorna os matches em progresso se a query "inProgress" for true', async function () {
+        const buildModel = models.MatchModel.bulkBuild(mocks.matchesInProgress, {
           include:
             [
               { model: models.TeamModel, as: 'homeTeam', attributes: { exclude: ['id'] } },
@@ -63,11 +63,11 @@ describe('Sequência de testes sobre a rota "/matches"', function () {
 
         sinon.assert.calledOnce(fakeModel);
         expect(response).to.have.status(OK);
-        expect(response.body).to.be.deep.equal(matchesInProgress);
+        expect(response.body).to.be.deep.equal(mocks.matchesInProgress);
       });
 
-      it('Se a rota raiz retorna os matches finalizados se fornecido a query "inProgress" como falsa', async function () {
-        const buildModel = models.MatchModel.bulkBuild(matchesEnded, {
+      it('Se a rota raiz retorna os matches finalizados se a query "inProgress" for falsa', async function () {
+        const buildModel = models.MatchModel.bulkBuild(mocks.matchesEnded, {
           include:
             [
               { model: models.TeamModel, as: 'homeTeam', attributes: { exclude: ['id'] } },
@@ -80,7 +80,7 @@ describe('Sequência de testes sobre a rota "/matches"', function () {
 
         sinon.assert.calledOnce(fakeModel);
         expect(response).to.have.status(OK);
-        expect(response.body).to.be.deep.equal(matchesEnded);
+        expect(response.body).to.be.deep.equal(mocks.matchesEnded);
       });
     });
 
