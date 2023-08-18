@@ -5,7 +5,7 @@ import { describe, it } from 'mocha';
 import * as sinonChai from 'sinon-chai';
 
 // mocks
-import { matches, matchesInProgress, matchesEnded } from '../../mocks/exporter';
+import * as mocks from '../../mocks/exporter';
 
 // models
 import * as models from '../../../database/models/exporter';
@@ -22,9 +22,9 @@ describe('Sequência de testes sobre a camada Repository da rota "/matches"', fu
 
   afterEach(sinon.restore);
 
-  it('Verifica se a camada retorna todos os matches', async function () {
+  it('Se a camada retorna todos os matches', async function () {
     const buildModel = models.MatchModel.bulkBuild(
-      matches,
+      mocks.matches,
       {
         include:
           [
@@ -41,9 +41,9 @@ describe('Sequência de testes sobre a camada Repository da rota "/matches"', fu
     expect(all).to.be.deep.equal(buildModel);
   });
 
-  it('Verifica se a camada retorna apenas o matches não finalizados', async function () {
+  it('Se a camada retorna apenas o matches não finalizados', async function () {
     const buildModel = models.MatchModel.bulkBuild(
-      matchesInProgress,
+      mocks.matchesInProgress,
       {
         include:
           [
@@ -60,9 +60,9 @@ describe('Sequência de testes sobre a camada Repository da rota "/matches"', fu
     expect(all).to.be.deep.equal(buildModel);
   });
 
-  it('Verifica se a camada retorna apenas os matches finalizados', async function () {
+  it('Se a camada retorna apenas os matches finalizados', async function () {
     const buildModel = models.MatchModel.bulkBuild(
-      matchesEnded,
+      mocks.matchesEnded,
       {
         include:
           [
@@ -77,5 +77,43 @@ describe('Sequência de testes sobre a camada Repository da rota "/matches"', fu
 
     sinon.assert.calledOnce(fakeModel);
     expect(all).to.be.deep.equal(buildModel);
+  });
+
+  it('Se a camada retorna o match id', async function () {
+    const buildModel = models.MatchModel.build(mocks.matchesRaw[0]);
+    const fakeModel = sinon.stub(models.MatchModel, 'findByPk').resolves(buildModel);
+
+    const match = await repository.getById(mocks.matchesRaw[0].id);
+
+    sinon.assert.calledOnce(fakeModel);
+    expect(match).to.be.deep.equal(buildModel);
+  });
+
+  it('Se é possível criar um novo match', async function () {
+    const buildModel = models.MatchModel.build(mocks.newMatches.registerModelMatch);
+    const fakeModel = sinon.stub(models.MatchModel, 'create').resolves(buildModel);
+
+    const newMatch = await repository.createMatch(mocks.newMatches.validMatch);
+
+    sinon.assert.calledOnce(fakeModel);
+    expect(newMatch).to.be.deep.equal(buildModel);
+  });
+
+  it('Se é possível atualizar uma partida em andamento', async function () {
+    const fakeModel = sinon.stub(models.MatchModel, 'update').resolves([2]);
+
+    const updateMatch = await repository.updateMatch({ awayTeamGoals: 2, homeTeamGoals: 4 }, 2);
+
+    sinon.assert.calledOnce(fakeModel);
+    expect(updateMatch).to.be.deep.equal([2]);
+  });
+
+  it('Se é possível finalizar uma partida', async function () {
+    const fakeModel = sinon.stub(models.MatchModel, 'update').resolves([1]);
+
+    const endMatch = await repository.finishMatch(4);
+
+    sinon.assert.calledOnce(fakeModel);
+    expect(endMatch).to.be.deep.equal([1]);
   });
 });
