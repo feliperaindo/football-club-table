@@ -9,13 +9,13 @@ import { NextFunction, Request, Response } from 'express';
 import * as types from '../../../types/exporter';
 
 // Middleware a ser testado
-import ErrorMid from '../../../middleware/error.mid';
+import { ErrorMid } from '../../../middleware/exporter';
 
 // configurations
 chai.use(sinonChai);
 const { expect } = chai;
 
-describe('Sequência de testes sobre o middleware de error', function () {
+describe('Sequência de testes sobre o middleware Error', function () {
   // Status
   const NOT_FOUND_STATUS: types.Status = 404;
   const message = 'Minha mensagem de erro personalizada';
@@ -26,7 +26,7 @@ describe('Sequência de testes sobre o middleware de error', function () {
   const res = {} as Response;
   let next: NextFunction;
 
-  it('Verifica se o middleware devolve uma resposta com mensagem e status', async function () {
+  it('Verifica se o middleware devolve uma resposta com mensagem e status', function () {
     res.status = sinon.stub().returns(res);
     res.send = sinon.stub().returns(res);
     next = sinon.stub().returns(null) as NextFunction;

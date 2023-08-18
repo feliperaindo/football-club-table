@@ -56,18 +56,12 @@ export default class MatchService extends classes.Service {
     goals: types.match.GoalsUpdate,
     id: number,
   ): Promise<types.match.SuccessUpdate> {
-    const newScore = await this.repository.updateMatch(goals, id);
-
-    if (newScore[0] === this.zero) { throw new Error('It was not possible update the score.'); }
-
-    return { message: 'Score updated.' };
+    await this.repository.updateMatch(goals, id);
+    return { message: 'Score updated' };
   }
 
   public async finishMatch(id: number): Promise<types.match.SuccessUpdate> {
-    const finished = await this.repository.finishMatch(id);
-
-    if (finished[0] === this.zero) { throw new Error('It was not possible finish the match'); }
-
+    await this.repository.finishMatch(id);
     return { message: 'Finalizado' };
   }
 }
