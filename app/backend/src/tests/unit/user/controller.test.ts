@@ -47,12 +47,13 @@ describe('Sequência de testes sobre a camada controller da rota "/login"', func
 
   describe('Sequência de testes para casos de sucesso da requisição', function () {
     it('Verifica se a resposta retorna status OK e um token', async function () {
-      const fakeService = sinon.stub(UserService.prototype, 'getToken').resolves(token);
+      const fakeService = sinon.stub(UserService.prototype, 'getToken')
+        .resolves({ token: token.validToken });
 
       await controller.login(req, res, next);
 
       sinon.assert.calledOnce(fakeService);
-      expect(res.send).to.have.been.calledWith(token);
+      expect(res.send).to.have.been.calledWith({ token: token.validToken });
       expect(res.status).to.have.been.calledWith(OK_STATUS);
       expect(fakeService).to.have.been.calledWith(login.validUser);
     });

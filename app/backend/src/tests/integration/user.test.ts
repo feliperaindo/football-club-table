@@ -27,9 +27,9 @@ describe('Sequência de testes sobre a rota /login', function () {
   const PATH_ROLE = '/login/role';
 
   // HTTP Status
-  const OK_STATUS: types.Status = 200;
-  const BAD_REQUEST_STATUS: types.Status = 400;
-  const UNAUTHORIZED_STATUS: types.Status = 401;
+  const OK: types.Status = 200;
+  const BAD_REQUEST: types.Status = 400;
+  const UNAUTHORIZED: types.Status = 401;
 
   // Header
   const AUTHORIZATION = 'authorization';
@@ -49,7 +49,7 @@ describe('Sequência de testes sobre a rota /login', function () {
 
       sinon.assert.calledOnce(fakeModel);
       sinon.assert.calledOnce(fakeBcrypt);
-      expect(result).to.have.status(OK_STATUS);
+      expect(result).to.have.status(OK);
       expect(result.body).to.have.property('token');
     });
 
@@ -65,7 +65,7 @@ describe('Sequência de testes sobre a rota /login', function () {
 
       sinon.assert.calledOnce(fakeBcrypt);
       sinon.assert.calledTwice(fakeModel);
-      expect(response).to.have.status(OK_STATUS);
+      expect(response).to.have.status(OK);
       expect(response.body).to.have.property('role', users.admin.role);
     });
   });
@@ -78,42 +78,42 @@ describe('Sequência de testes sobre a rota /login', function () {
     it('Se lança mensagem e status de erro caso não exista o campo password', async function () {
       const result = await chai.request(app).post(PATH_ROOT).send(login.inexistentPassword);
 
-      expect(result).to.have.status(BAD_REQUEST_STATUS);
+      expect(result).to.have.status(BAD_REQUEST);
       expect(result.body).to.have.property(MESSAGE_FIELD, EMPTY_FIELDS);
     });
 
     it('Se lança mensagem e status de erro caso o campo password esteja vazio', async function () {
       const result = await chai.request(app).post(PATH_ROOT).send(login.emptyPassword);
 
-      expect(result).to.have.status(BAD_REQUEST_STATUS);
+      expect(result).to.have.status(BAD_REQUEST);
       expect(result.body).to.have.property(MESSAGE_FIELD, EMPTY_FIELDS);
     });
 
     it('Se lança mensagem e status de erro caso não exista o campo email', async function () {
       const result = await chai.request(app).post(PATH_ROOT).send(login.inexistentEmail);
 
-      expect(result).to.have.status(BAD_REQUEST_STATUS);
+      expect(result).to.have.status(BAD_REQUEST);
       expect(result.body).to.have.property(MESSAGE_FIELD, EMPTY_FIELDS);
     });
 
     it('Se lança mensagem e status de erro caso o campo email esteja vazio', async function () {
       const result = await chai.request(app).post(PATH_ROOT).send(login.emptyEmail);
 
-      expect(result).to.have.status(BAD_REQUEST_STATUS);
+      expect(result).to.have.status(BAD_REQUEST);
       expect(result.body).to.have.property(MESSAGE_FIELD, EMPTY_FIELDS);
     });
 
     it('Se lança mensagem e status de erro caso email não seja um email', async function () {
       const result = await chai.request(app).post(PATH_ROOT).send(login.unformattedEmail);
 
-      expect(result).to.have.status(UNAUTHORIZED_STATUS);
+      expect(result).to.have.status(UNAUTHORIZED);
       expect(result.body).to.have.property(MESSAGE_FIELD, INVALID_EMAIL_PASSWORD);
     });
 
     it('Se lança mensagem e status de erro caso password seja menor que 6 caracteres', async function () {
       const result = await chai.request(app).post(PATH_ROOT).send(login.shortPassword);
 
-      expect(result).to.have.status(UNAUTHORIZED_STATUS);
+      expect(result).to.have.status(UNAUTHORIZED);
       expect(result.body).to.have.property(MESSAGE_FIELD, INVALID_EMAIL_PASSWORD);
     });
 
@@ -123,7 +123,7 @@ describe('Sequência de testes sobre a rota /login', function () {
       const result = await chai.request(app).post(PATH_ROOT).send(login.invalidEmail);
 
       sinon.assert.calledOnce(fakeModel);
-      expect(result).to.have.status(UNAUTHORIZED_STATUS);
+      expect(result).to.have.status(UNAUTHORIZED);
       expect(result.body).to.have.property(MESSAGE_FIELD, INVALID_EMAIL_PASSWORD);
     });
 
@@ -136,7 +136,7 @@ describe('Sequência de testes sobre a rota /login', function () {
 
       sinon.assert.calledOnce(fakeModel);
       sinon.assert.calledOnce(fakeBcrypt);
-      expect(result).to.have.status(UNAUTHORIZED_STATUS);
+      expect(result).to.have.status(UNAUTHORIZED);
       expect(result.body).to.have.property(MESSAGE_FIELD, INVALID_EMAIL_PASSWORD);
     });
   });
@@ -148,7 +148,7 @@ describe('Sequência de testes sobre a rota /login', function () {
     it('Verifica se lança um erro e status correto em caso de não fornecer um token', async function () {
       const result = await chai.request(app).get(PATH_ROLE);
 
-      expect(result).to.have.status(UNAUTHORIZED_STATUS);
+      expect(result).to.have.status(UNAUTHORIZED);
       expect(result.body).to.have.property(MESSAGE_FIELD, TOKEN_NOT_FOUND);
     });
 
@@ -157,7 +157,7 @@ describe('Sequência de testes sobre a rota /login', function () {
         .get(PATH_ROLE)
         .set(AUTHORIZATION, token.invalidToken);
 
-      expect(result).to.have.status(UNAUTHORIZED_STATUS);
+      expect(result).to.have.status(UNAUTHORIZED);
       expect(result.body).to.have.property(MESSAGE_FIELD, TOKEN_INVALID);
     });
   });

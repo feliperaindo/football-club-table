@@ -1,13 +1,60 @@
 {
-  "validMatch": { "awayTeamId": 2, "homeTeamId": 10, "homeTeamGoals": 1, "awayTeamGoals": 3 },
-  "noHomeIdMatch": { "awayTeamId": 2, "homeTeamGoals": 1, "awayTeamGoals": 3 },
-  "noAwayIdMatch": { "homeTeamId": 10, "homeTeamGoals": 1, "awayTeamGoals": 3 },
-  "noHomeGoalMatch": { "awayTeamId": 2, "homeTeamId": 10, "awayTeamGoals": 3 },
-  "noAwayGoalMatch": { "awayTeamId": 2, "homeTeamId": 10, "homeTeamGoals": 1 },
-  "invalidHomeId": { "awayTeamId": 2, "homeTeamId": "text", "homeTeamGoals": 1, "awayTeamGoals": 3 },
-  "invalidAwayId": { "awayTeamId": true, "homeTeamId": 10, "homeTeamGoals": 1, "awayTeamGoals": 3 },
-  "invalidGoalsHome": { "awayTeamId": 2, "homeTeamId": 10, "homeTeamGoals": "text", "awayTeamGoals": 3 },
-  "invalidGoalsAway": { "awayTeamId": 2, "homeTeamId": 10, "homeTeamGoals": 1, "awayTeamGoals": "text" },
+  "validMatch": {
+    "awayTeamId": 2,
+    "homeTeamId": 10,
+    "homeTeamGoals": 1,
+    "awayTeamGoals": 3
+  },
+  "sameTeamMatch": {
+    "awayTeamId": 2,
+    "homeTeamId": 2,
+    "homeTeamGoals": 1,
+    "awayTeamGoals": 3
+  },
+  "noHomeIdMatch": {
+    "awayTeamId": 2,
+    "homeTeamGoals": 1,
+    "awayTeamGoals": 3
+  },
+  "noAwayIdMatch": {
+    "homeTeamId": 10,
+    "homeTeamGoals": 1,
+    "awayTeamGoals": 3
+  },
+  "noHomeGoalMatch": {
+    "awayTeamId": 2,
+    "homeTeamId": 10,
+    "awayTeamGoals": 3
+  },
+  "noAwayGoalMatch": {
+    "awayTeamId": 2,
+    "homeTeamId": 10,
+    "homeTeamGoals": 1
+  },
+  "invalidHomeId": {
+    "awayTeamId": 2,
+    "homeTeamId": "text",
+    "homeTeamGoals": 1,
+    "awayTeamGoals": 3
+  },
+  "invalidAwayId": {
+    "awayTeamId": true,
+    "homeTeamId": 10,
+    "homeTeamGoals": 1,
+    "awayTeamGoals": 3
+  },
+  "invalidGoalsHome": {
+    "awayTeamId": 2,
+    "homeTeamId": 10,
+    "homeTeamGoals": "text",
+    "awayTeamGoals": 3
+  },
+  "invalidGoalsAway": {
+    "awayTeamId": 2,
+    "homeTeamId": 10,
+    "homeTeamGoals": 1,
+    "awayTeamGoals": "text"
+  },
   "registerModelMatch": { 
     "id": 50,
     "homeTeamId": 10,
