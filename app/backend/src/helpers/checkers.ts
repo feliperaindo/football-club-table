@@ -1,3 +1,6 @@
+// types
+import * as types from '../types/exporter';
+
 export default class checkers {
   private static readonly empty: number = 0;
   private static readonly minPassword: number = 6;
@@ -22,5 +25,13 @@ export default class checkers {
 
   public static checkOnlyNumbers(id: string): boolean {
     return this.numberRegex.test(id);
+  }
+
+  public static checkWinner(scored: number, taken: number): types.Leader.ScoreBoard {
+    switch (true) {
+      case (scored > taken): return { draw: 0, lose: 0, victory: 1 };
+      case (scored < taken): return { draw: 0, lose: 1, victory: 0 };
+      default: return { draw: 1, lose: 0, victory: 0 };
+    }
   }
 }
