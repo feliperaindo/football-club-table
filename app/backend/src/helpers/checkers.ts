@@ -34,4 +34,16 @@ export default class checkers {
       default: return { draw: 1, lose: 0, victory: 0 };
     }
   }
+
+  public static sortLeaderBoard(table: types.Leader.LeaderBoard[]): types.Leader.LeaderBoard[] {
+    return table.sort((f, s) => {
+      const diffPoints = s.totalPoints - f.totalPoints;
+      if (diffPoints !== 0) { return diffPoints; }
+
+      const diffBalance = s.goalsBalance - f.goalsBalance;
+      if (diffBalance !== 0) { return diffBalance; }
+
+      return s.goalsFavor - f.goalsFavor;
+    });
+  }
 }

@@ -25,7 +25,7 @@ export default class LeaderBoardService extends classes.Service {
     const hashTable = this.hashTableCreator(teams);
     this.populateTable(matches, hashTable);
 
-    return Array.from(hashTable.values());
+    return checkers.sortLeaderBoard(Array.from(hashTable.values()));
   }
 
   // Table creators
