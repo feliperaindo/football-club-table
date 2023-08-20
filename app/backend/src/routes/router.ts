@@ -26,6 +26,7 @@ export default class RouterManager extends classes.Routes {
   private teamRouter: routes.TeamRoute = new routes.TeamRoute();
   private loginRouter: routes.LoginRoute = new routes.LoginRoute();
   private matchRouter: routes.MatchRoute = new routes.MatchRoute();
+  private leaderRouter: routes.LeaderBoardRoute = new routes.LeaderBoardRoute();
 
   constructor() {
     super();
@@ -44,6 +45,6 @@ export default class RouterManager extends classes.Routes {
     this._router.use(this.teams, this.teamRouter.manager);
     this._router.use(this.login, this.loginRouter.manager);
     this._router.use(this.matches, this.matchRouter.manager);
-    // this._router.use(this.leaderBoard);
+    this._router.use(this.leaderBoard, this.leaderRouter.manager);
   }
 }
