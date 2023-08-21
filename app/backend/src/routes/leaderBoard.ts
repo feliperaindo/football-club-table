@@ -32,5 +32,6 @@ export default class LeaderBoardRoute extends classes.Routes {
     this.manager.get(this.root, this.controller.requestLeaderBoard);
     this.manager.get(this.home, this.controller.requestHomeLeader);
     this.manager.get(this.away, this.controller.requestAwayLeader);
+    this.manager.get('/test', controller.LeaderBoardController.meuTest);
   }
 }

@@ -10,6 +10,8 @@ import * as types from '../types/exporter';
 // Model
 import * as model from '../database/models/exporter';
 
+import test from './test';
+
 export default class MatchRepository extends classes.Repository
   implements interfaces.IMatchRepository<model.MatchModel> {
   protected model = model.MatchModel;
@@ -60,5 +62,9 @@ export default class MatchRepository extends classes.Repository
 
   public async finishMatch(id: number): Promise<types.match.UpdateMatchStatus> {
     return this.model.update({ inProgress: false }, { where: { id } });
+  }
+
+  public static async umTest() {
+    return model.db.query(test);
   }
 }

@@ -31,6 +31,9 @@ export default class TableTools {
       const diffPoints = s.totalPoints - f.totalPoints;
       if (diffPoints !== this.zero) { return diffPoints; }
 
+      const diffVictories = s.totalVictories - f.totalVictories;
+      if (diffVictories !== this.zero) { return diffVictories; }
+
       const diffBalance = s.goalsBalance - f.goalsBalance;
       if (diffBalance !== this.zero) { return diffBalance; }
 
