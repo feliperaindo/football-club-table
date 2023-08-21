@@ -2,7 +2,8 @@
 import * as types from '../types/exporter';
 
 export default class checkers {
-  private static readonly empty: number = 0;
+  private static readonly one = 1;
+  private static readonly zero = 0;
   private static readonly minPassword: number = 6;
   private static readonly emailRegex: RegExp = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   private static readonly numberRegex: RegExp = /^\d+$/;
@@ -12,7 +13,7 @@ export default class checkers {
   }
 
   public static isEmpty(value: string): boolean {
-    return value.length === this.empty;
+    return value.length === this.zero;
   }
 
   public static checkEmail(email: string): boolean {
@@ -29,21 +30,9 @@ export default class checkers {
 
   public static checkWinner(scored: number, taken: number): types.Leader.ScoreBoard {
     switch (true) {
-      case (scored > taken): return { draw: 0, lose: 0, victory: 1 };
-      case (scored < taken): return { draw: 0, lose: 1, victory: 0 };
-      default: return { draw: 1, lose: 0, victory: 0 };
+      case (scored > taken): return { draw: this.zero, lose: this.zero, victory: this.one };
+      case (scored < taken): return { draw: this.zero, lose: this.one, victory: this.zero };
+      default: return { draw: this.one, lose: this.zero, victory: this.zero };
     }
-  }
-
-  public static sortLeaderBoard(table: types.Leader.LeaderBoard[]): types.Leader.LeaderBoard[] {
-    return table.sort((f, s) => {
-      const diffPoints = s.totalPoints - f.totalPoints;
-      if (diffPoints !== 0) { return diffPoints; }
-
-      const diffBalance = s.goalsBalance - f.goalsBalance;
-      if (diffBalance !== 0) { return diffBalance; }
-
-      return s.goalsFavor - f.goalsFavor;
-    });
   }
 }
