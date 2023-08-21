@@ -13,6 +13,8 @@ export type LeaderBoard = {
   efficiency: string
 };
 
+export type filter = 'home' | 'away' | undefined;
+
 export type HashMap = Map<string, LeaderBoard>;
 
 export type GoalInfo = { team: string, scored: number, taken: number };

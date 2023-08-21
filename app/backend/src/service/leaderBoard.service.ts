@@ -27,14 +27,9 @@ export default class LeaderBoardService extends classes.Service {
   }
 
   // public method
-  public async getLeaderBoard(): Promise<Leader.LeaderBoard[]> {
+  public async getLeaderBoard(filter?: Leader.filter): Promise<Leader.LeaderBoard[]> {
     const allTeams = await this.getAllTeams();
     const allMatches = await this.getAllEndedMatches();
-    return utils.hashMap.tableManager(allTeams, allMatches);
+    return utils.hashMap.tableManager(allTeams, allMatches, filter);
   }
-
-  // public async getHomeLeaderBoard(progress: boolean): Promise<types.LeaderBoard[]> {
-  //   const allMatches = await this.getModelTable();
-  //   return this.createTable(matchesByProgress);
-  // }
 }

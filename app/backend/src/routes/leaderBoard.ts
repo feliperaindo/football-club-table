@@ -30,5 +30,7 @@ export default class LeaderBoardRoute extends classes.Routes {
   // methods
   protected initializeRoutes(): void {
     this.manager.get(this.root, this.controller.requestLeaderBoard);
+    this.manager.get(this.home, this.controller.requestHomeLeader);
+    this.manager.get(this.away, this.controller.requestAwayLeader);
   }
 }
