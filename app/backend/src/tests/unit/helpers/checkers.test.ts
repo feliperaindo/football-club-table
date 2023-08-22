@@ -3,7 +3,7 @@ import * as chai from 'chai';
 import { describe, it } from 'mocha';
 
 // Checkers
-import { checkers } from '../../../helpers/exporter';
+import checkers from '../../../helpers/checkers';
 
 // config
 const { expect } = chai;

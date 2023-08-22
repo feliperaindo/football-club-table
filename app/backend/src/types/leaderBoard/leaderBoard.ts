@@ -2,14 +2,14 @@ type Binary = 0 | 1;
 
 export type LeaderBoard = {
   name: string,
-  totalPoints: number,
+  totalPoints: string,
   totalGames: number,
-  totalVictories: number,
-  totalDraws: number,
-  totalLosses: number,
-  goalsFavor: number,
-  goalsOwn: number,
-  goalsBalance: number,
+  totalVictories: string,
+  totalDraws: string,
+  totalLosses: string,
+  goalsFavor: string,
+  goalsOwn: string,
+  goalsBalance: string,
   efficiency: string
 };
 

@@ -7,8 +7,6 @@ import * as classes from '../classes/exporter';
 // service
 import * as service from '../service/exporter';
 
-import { MatchRepository } from '../repository/exporter';
-
 export default class LeaderBoardController extends classes.Controller {
   protected readonly service = new service.LeaderBoardService();
 
@@ -32,9 +30,5 @@ export default class LeaderBoardController extends classes.Controller {
   public async requestAwayLeader(__request: Request, response: Response): Promise<void> {
     const homeLeader = await this.service.getLeaderBoard('away');
     response.status(this.ok).send(homeLeader);
-  }
-
-  public static async meuTest(__request: Request, response: Response): Promise<void> {
-    response.status(200).send((await MatchRepository.umTest()));
   }
 }

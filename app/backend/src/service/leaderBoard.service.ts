@@ -1,35 +1,29 @@
-// types
-import * as models from '../database/models/exporter';
-
 // classes
 import * as classes from '../classes/exporter';
 
 // types
 import { Leader } from '../types/exporter';
 
-// utils
-import * as utils from '../utils/exporter';
-
 // repository
 import * as repository from '../repository/exporter';
 
 export default class LeaderBoardService extends classes.Service {
-  protected readonly repository = new repository.MatchRepository();
-  private readonly teamRepository = new repository.TeamRepository();
-
-  // Repositories requesters
-  private getAllTeams(): Promise<models.TeamModel[]> {
-    return this.teamRepository.getAll();
-  }
-
-  private getAllEndedMatches(): Promise<models.MatchModel[]> {
-    return this.repository.getByProgress(false);
-  }
+  protected repository = new repository.LeaderRepository();
 
   // public method
   public async getLeaderBoard(filter?: Leader.filter): Promise<Leader.LeaderBoard[]> {
-    const allTeams = await this.getAllTeams();
-    const allMatches = await this.getAllEndedMatches();
-    return utils.hashMap.tableManager(allTeams, allMatches, filter);
+    switch (filter) {
+      case 'home': {
+        const [leader] = await this.repository.getHomeLeader();
+        return leader;
+      }
+      case 'away': {
+        const [leader] = await this.repository.getAwayLeader();
+        return leader;
+      }
+      default: {
+        const [leader] = await this.repository.getLeaderBoard();
+        return leader; }
+    }
   }
 }

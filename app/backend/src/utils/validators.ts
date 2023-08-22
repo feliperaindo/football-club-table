@@ -2,7 +2,7 @@
 import * as types from '../types/exporter';
 
 // helpers
-import { checkers } from '../helpers/exporter';
+import checkers from '../helpers/checkers';
 
 export default class Validators {
   private static readonly fieldError: string = 'All fields must be filled';
